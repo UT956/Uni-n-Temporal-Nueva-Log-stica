@@ -1,0 +1,2006 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+     <link rel="shortcut icon" href="img/1.jpeg" type="image/x-icon" />
+    
+<style>
+  .centrar-imagen {
+    display: block;  /* Asegura que sea un elemento de bloque */
+    margin-left: auto;
+    margin-right: auto;
+    width: 15%; /* Puedes ajustar el ancho según necesites */
+  }
+</style>
+</head>
+<body>
+
+<img class="centrar-imagen" src="img/1.jpeg" alt="">
+
+</body>
+</html>
+    <title>Unión Temporal Nueva Logística - Sistema Mejorado</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            min-height: 100vh;
+            padding: 10px;
+        }
+
+        .loader-circle-45 {
+            width: 70px;
+            height: 70px;
+            position: relative;
+            border-radius: 50%;
+            box-shadow: 0 0 5px #444;
+        }
+
+        .loader-circle-45:before {
+            content: "";
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            background: linear-gradient(#f00, #000 60%);
+            animation: loader-circle-45-spin 0.5s infinite linear;
+        }
+
+        .loader-circle-45:after {
+            content: "";
+            position: absolute;
+            width: 90%;
+            height: 90%;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: #222;
+            border-radius: 50%;
+            box-shadow: inset 0 0 5px #444;
+        }
+
+        @keyframes loader-circle-45-spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        #loaderContainer {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            width: 100vw;
+            position: fixed;
+            top: 0;
+            left: 0;
+            background-color: #202628;
+            z-index: 2000;
+        }
+
+        #loaderContainer.hidden {
+            display: none;
+        }
+
+        .login-container {
+            max-width: 450px;
+            margin: 50px auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            padding: 30px 20px;
+            animation: slideIn 0.5s ease-out;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .login-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .login-header h2 {
+            color: #333;
+            margin-bottom: 10px;
+            font-size: 1.8em;
+        }
+
+        .login-header p {
+            color: #666;
+            font-size: 0.9em;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 8px;
+            font-size: 0.9em;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 1em;
+            transition: all 0.3s ease;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .btn-login {
+            width: 100%;
+            padding: 12px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-bottom: 10px;
+        }
+
+        .btn-login:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+            display: none;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+            position: relative;
+        }
+
+        .user-info {
+            position: absolute;
+            top: 20px;
+            right: 30px;
+            text-align: right;
+        }
+
+        .user-info p {
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+
+        .user-menu {
+            display: flex;
+            gap: 1px;
+            flex-wrap: wrap;
+            justify-content: flex-end;
+        }
+
+        .btn-user {
+            padding: 5px 10px;
+            background: rgba(255,255,255,0.2);
+            color: white;
+            border: 2px solid white;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            font-size: 0.9em;
+        }
+
+        .btn-user:hover {
+            background: white;
+            color: #667eea;
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+
+        .controls {
+            padding: 30px;
+            background: #f8f9fa;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+
+        .control-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .control-group label {
+            font-weight: 600;
+            color: #333;
+            font-size: 0.9em;
+        }
+
+        .control-group input {
+            padding: 12px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 1em;
+            transition: all 0.3s ease;
+        }
+
+        .control-group input:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .buttons {
+            padding: 20px 30px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            background: white;
+        }
+
+        .btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            color: white;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+        }
+
+        .btn-primary { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); }
+        .btn-success { background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%); }
+        .btn-info { background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); }
+        .btn-warning { background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); }
+        .btn-danger { background: linear-gradient(135deg, #ff6b6b 0%, #ee5a6f 100%); }
+
+        .content {
+            padding: 30px;
+            overflow-x: auto;
+        }
+
+        .data-table {
+            width: 100%;
+            min-width: 800px;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        .data-table th {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 15px;
+            text-align: left;
+            font-weight: 600;
+        }
+
+        .data-table td {
+            padding: 12px 15px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .data-table tr:hover {
+            background: #f8f9fa;
+        }
+
+        .data-table input[type="checkbox"] {
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+        }
+
+        .ubicacion-badge {
+            display: inline-block;
+            padding: 6px 12px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 0.9em;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: #999;
+        }
+
+        .empty-state svg {
+            width: 100px;
+            height: 100px;
+            margin-bottom: 20px;
+            opacity: 0.5;
+        }
+
+        .error-message {
+            color: #ff6b6b;
+            font-size: 0.9em;
+            margin-top: 10px;
+            text-align: center;
+        }
+
+        .success-message {
+            color: #38ef7d;
+            font-size: 0.9em;
+            margin-top: 10px;
+            text-align: center;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.7);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            padding: 20px;
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: 15px;
+            padding: 40px;
+            max-width: 500px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        .modal-header {
+            margin-bottom: 25px;
+            text-align: center;
+        }
+
+        .modal-header h3 {
+            color: #333;
+            font-size: 1.5em;
+            margin-bottom: 10px;
+        }
+
+        .modal-buttons {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .modal-buttons .btn-login {
+            flex: 1;
+        }
+
+        .save-indicator {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: #38ef7d;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            font-size: 0.9em;
+            font-weight: 600;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            z-index: 1500;
+        }
+
+        .save-indicator.show {
+            opacity: 1;
+        }
+
+        .db-stats {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 20px;
+            font-size: 0.9em;
+        }
+
+        .db-stats h4 {
+            margin-bottom: 10px;
+            color: #667eea;
+        }
+
+        .db-stats p {
+            margin: 5px 0;
+            color: #666;
+        }
+
+        .export-buttons {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .btn-small {
+            padding: 8px 16px;
+            font-size: 0.85em;
+        }
+
+        .user-card {
+            background: #f8f9fa;
+            border: 2px solid #ddd;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 15px;
+            transition: all 0.3s ease;
+        }
+
+        .user-card:hover {
+            border-color: #667eea;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.2);
+        }
+
+        .user-card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .user-card-title {
+            font-weight: 600;
+            color: #333;
+            font-size: 1.1em;
+        }
+
+        .user-card-info {
+            font-size: 0.85em;
+            color: #666;
+            margin: 5px 0;
+        }
+
+        .user-card-actions {
+            display: flex;
+            gap: 8px;
+            margin-top: 10px;
+        }
+
+        .btn-card {
+            flex: 1;
+            padding: 8px 12px;
+            border: none;
+            border-radius: 6px;
+            font-size: 0.85em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            color: white;
+        }
+
+        .btn-card-danger {
+            background: linear-gradient(135deg, #ff6b6b 0%, #ee5a6f 100%);
+        }
+
+        .btn-card-danger:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 10px rgba(255, 107, 107, 0.3);
+        }
+
+        .badge-admin {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 0.75em;
+            font-weight: 600;
+        }
+
+        .badge-current {
+            background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+            color: white;
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 0.75em;
+            font-weight: 600;
+        }
+
+        .btn-fecha {
+            width: 100%;
+            padding: 12px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: left;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .btn-fecha:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.3);
+        }
+
+        .calendar-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.7);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1500;
+            padding: 20px;
+            animation: fadeIn 0.3s ease;
+            overflow-y: auto;
+        }
+
+        .calendar-content {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            max-width: 500px;
+            width: 100%;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            animation: slideUp 0.3s ease;
+            margin: auto;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .calendar-header {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        .calendar-header h3 {
+            color: #333;
+            font-size: 1.5em;
+            margin-bottom: 10px;
+        }
+
+        .calendar-nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding: 15px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 12px;
+            color: white;
+        }
+
+        .calendar-nav button {
+            background: rgba(255,255,255,0.2);
+            border: 2px solid white;
+            color: white;
+            padding: 8px 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .calendar-nav button:hover {
+            background: white;
+            color: #667eea;
+        }
+
+        .calendar-nav span {
+            font-size: 1.1em;
+            font-weight: 600;
+        }
+
+        .calendar-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 8px;
+            margin-bottom: 20px;
+        }
+
+        .calendar-day-header {
+            text-align: center;
+            font-weight: 600;
+            color: #667eea;
+            padding: 10px 5px;
+            font-size: 0.9em;
+        }
+
+        .calendar-day {
+            aspect-ratio: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 2px solid #ddd;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            background: white;
+            min-height: 45px;
+        }
+
+        .calendar-day:hover {
+            background: #f0f0ff;
+            border-color: #667eea;
+            transform: scale(1.05);
+        }
+
+        .calendar-day.selected {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-color: #667eea;
+        }
+
+        .calendar-day.today {
+            border-color: #38ef7d;
+            background: #f0fff4;
+        }
+
+        .calendar-day.other-month {
+            color: #ccc;
+            cursor: default;
+        }
+
+        .calendar-day.other-month:hover {
+            background: white;
+            transform: none;
+        }
+
+        .fecha-preview {
+            text-align: center;
+            padding: 15px;
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            color: white;
+            border-radius: 10px;
+            margin-bottom: 15px;
+            font-weight: 600;
+            font-size: 1.1em;
+        }
+
+        .calendar-buttons {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .calendar-buttons button {
+            flex: 1;
+            padding: 14px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            color: white;
+        }
+
+        .btn-calendar-confirm {
+            background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+        }
+
+        .btn-calendar-confirm:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(17, 153, 142, 0.3);
+        }
+
+        .btn-calendar-cancel {
+            background: linear-gradient(135deg, #ff6b6b 0%, #ee5a6f 100%);
+        }
+
+        .btn-calendar-cancel:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(255, 107, 107, 0.3);
+        }
+    </style>
+</head>
+<body>
+    <div id="loaderContainer" class="hidden">
+        <div class="loader-circle-45"></div>
+    </div>
+
+    <div class="save-indicator" id="saveIndicator">✓ Guardado automáticamente</div>
+
+    <div class="login-container" id="loginContainer">
+        <div class="login-header">
+            <h2>Iniciar Sesión</h2>
+            <p>Sistema de Gestión de Inventario</p>
+        </div>
+        <div class="form-group">
+            <label for="loginUsuario">Usuario</label>
+            <input type="text" id="loginUsuario" placeholder="Ingrese su usuario">
+        </div>
+        <div class="form-group">
+            <label for="loginPassword">Contraseña</label>
+            <input type="password" id="loginPassword" placeholder="Ingrese su contraseña">
+        </div>
+        <button class="btn-login" onclick="iniciarSesion()">Ingresar</button>
+        <button class="btn-login" style="background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);" onclick="mostrarRegistro()">Registrar Nuevo Usuario</button>
+        <div id="loginError" class="error-message"></div>
+        
+        <div class="db-stats">
+            <h4>📊 Estadísticas del Sistema</h4>
+            <p id="statsUsuarios">Usuarios registrados: 0</p>
+            <p id="statsEspacio">Espacio usado: 0%</p>
+        </div>
+    </div>
+
+    <div class="login-container hidden" id="registerContainer">
+        <div class="login-header">
+            <h2>Registrar Usuario</h2>
+            <p>Complete todos los campos</p>
+        </div>
+        <div class="form-group">
+            <label for="regNombre">Nombre Completo</label>
+            <input type="text" id="regNombre" placeholder="Nombre completo">
+        </div>
+        <div class="form-group">
+            <label for="regUsuario">Nombre de Usuario</label>
+            <input type="text" id="regUsuario" placeholder="Nombre de usuario único">
+        </div>
+        <div class="form-group">
+            <label for="regPassword">Contraseña</label>
+            <input type="password" id="regPassword" placeholder="Mínimo 4 caracteres">
+        </div>
+        <div class="form-group">
+            <label for="regPasswordConfirm">Confirmar Contraseña</label>
+            <input type="password" id="regPasswordConfirm" placeholder="Confirme su contraseña">
+        </div>
+        <button class="btn-login" onclick="registrarUsuario()">Registrar</button>
+        <button class="btn-login" style="background: linear-gradient(135deg, #ff6b6b 0%, #ee5a6f 100%);" onclick="volverLogin()">Volver</button>
+        <div id="registerError" class="error-message"></div>
+    </div>
+
+    <div id="modalPerfil" class="modal hidden">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Mi Perfil</h3>
+            </div>
+            <div class="form-group">
+                <label for="perfilNombre">Nombre Completo</label>
+                <input type="text" id="perfilNombre" placeholder="Nombre completo">
+            </div>
+            <div class="form-group">
+                <label for="perfilUsuario">Usuario</label>
+                <input type="text" id="perfilUsuario" disabled style="background: #f0f0f0;">
+            </div>
+            <div class="form-group">
+                <label for="perfilPasswordActual">Contraseña Actual</label>
+                <input type="password" id="perfilPasswordActual" placeholder="Ingrese contraseña actual">
+            </div>
+            <div class="form-group">
+                <label for="perfilPasswordNueva">Nueva Contraseña (opcional)</label>
+                <input type="password" id="perfilPasswordNueva" placeholder="Nueva contraseña">
+            </div>
+            <div class="form-group">
+                <label for="perfilPasswordConfirm">Confirmar Nueva Contraseña</label>
+                <input type="password" id="perfilPasswordConfirm" placeholder="Confirmar nueva contraseña">
+            </div>
+            
+            <div class="db-stats">
+                <h4>📈 Estadísticas de Usuario</h4>
+                <p id="userStatsRegistros">Registros totales: 0</p>
+                <p id="userStatsUltimoAcceso">Último acceso: N/A</p>
+                <div class="export-buttons">
+                    <button class="btn-login btn-small" onclick="exportarDatosUsuario()">📥 Exportar Datos</button>
+                    <button class="btn-login btn-small" style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);" onclick="document.getElementById('importFile').click()">📤 Importar</button>
+                    <input type="file" id="importFile" accept=".json" style="display: none;" onchange="importarDatosUsuario(event)">
+                </div>
+            </div>
+            
+            <div id="perfilError" class="error-message"></div>
+            <div id="perfilSuccess" class="success-message"></div>
+            <div class="modal-buttons">
+                <button class="btn-login" onclick="guardarPerfil()">Guardar Cambios</button>
+                <button class="btn-login" style="background: linear-gradient(135deg, #ff6b6b 0%, #ee5a6f 100%);" onclick="cerrarModalPerfil()">Cancelar</button>
+            </div>
+            <div style="margin-top: 20px; padding-top: 20px; border-top: 2px solid #ff6b6b;">
+                <h4 style="color: #ff6b6b; margin-bottom: 10px;">⚠️ Zona Peligrosa</h4>
+                <p style="font-size: 0.9em; color: #666; margin-bottom: 15px;">Esta acción es permanente y no se puede deshacer. Todos tus datos serán eliminados.</p>
+                <button class="btn-login" style="background: linear-gradient(135deg, #ff6b6b 0%, #ee5a6f 100%);" onclick="confirmarEliminarCuenta()">🗑️ Eliminar Mi Cuenta</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="modalAdminUsuarios" class="modal hidden">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>👥 Administrar Usuarios</h3>
+                <p style="color: #666; font-size: 0.9em;">Gestión completa de usuarios del sistema</p>
+            </div>
+            
+            <div id="listaUsuarios" style="max-height: 400px; overflow-y: auto;">
+                <!-- Lista de usuarios se carga dinámicamente -->
+            </div>
+            
+            <div id="adminError" class="error-message"></div>
+            <div id="adminSuccess" class="success-message"></div>
+            
+            <div class="modal-buttons" style="margin-top: 20px;">
+                <button class="btn-login" onclick="cerrarModalAdminUsuarios()">Cerrar</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="modalCalendario" class="calendar-modal hidden">
+        <div class="calendar-content">
+            <div class="calendar-header">
+                <h3>📅 Seleccionar Fecha</h3>
+            </div>
+
+            <div id="fechaPreview" class="fecha-preview">
+                Selecciona un día del calendario
+            </div>
+
+            <div class="calendar-nav">
+                <button onclick="cambiarMes(-1)">◀ Anterior</button>
+                <span id="mesAnioActual">Mes Año</span>
+                <button onclick="cambiarMes(1)">Siguiente ▶</button>
+            </div>
+
+            <div class="calendar-grid">
+                <div class="calendar-day-header">Dom</div>
+                <div class="calendar-day-header">Lun</div>
+                <div class="calendar-day-header">Mar</div>
+                <div class="calendar-day-header">Mié</div>
+                <div class="calendar-day-header">Jue</div>
+                <div class="calendar-day-header">Vie</div>
+                <div class="calendar-day-header">Sáb</div>
+                <div id="calendarioDias"></div>
+            </div>
+
+            <div class="calendar-buttons">
+                <button class="btn-calendar-confirm" onclick="confirmarFecha()">✓ Confirmar</button>
+                <button class="btn-calendar-cancel" onclick="cerrarCalendario()">✗ Cancelar</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="container" id="mainContainer">
+        <div class="header">
+            <div class="user-info">
+                <p id="currentUserName"></p>
+                <div class="user-menu">
+                    <button class="btn-user" onclick="abrirModalAdminUsuarios()">👥 Usuarios</button>
+                    <button class="btn-user" onclick="abrirModalPerfil()">Mi Perfil</button>
+                    <button class="btn-user" onclick="cerrarSesion()">Cerrar Sesión</button>
+                </div>
+            </div>
+            <h1>Unión Temporal Nueva Logística</h1>
+            <p>Control de Inventario y Ubicaciones</p>
+        </div>
+
+        <div class="controls">
+            <div class="control-group">
+                <label for="item"># Item</label>
+                <input type="text" id="item" placeholder="Ej: ITEM-001">
+            </div>
+            <div class="control-group">
+                <label for="numeroDim">Número de DIM</label>
+                <input type="text" id="numeroDim" placeholder="Ej: DIM-001">
+            </div>
+            <div class="control-group">
+                <label for="acta">Acta</label>
+                <input type="text" id="acta" placeholder="Ej: ACT-2025-001">
+            </div>
+            <div class="control-group">
+                <label for="fechaHora">📅 Fecha</label>
+                <button class="btn-fecha" onclick="abrirSelectorFecha()" type="button">
+                    <span id="fechaSeleccionada">Seleccionar fecha</span>
+                </button>
+            </div>
+            <div class="control-group">
+                <label for="descripcion">Descripción</label>
+                <input type="text" id="descripcion" placeholder="Descripción del artículo">
+            </div>
+            <div class="control-group">
+                <label for="cantidad">Cantidad</label>
+                <input type="number" id="cantidad" placeholder="0" min="0">
+            </div>
+        </div>
+
+        <div class="buttons">
+            <button class="btn btn-primary" onclick="consultarDim()">Consultar Número DIM</button>
+            <button class="btn btn-success" onclick="ingresarDim()">Ingresar</button>
+            <button class="btn btn-info" onclick="consultarActaAnio()">Consultar por Acta</button>
+            <button class="btn btn-warning" onclick="consultarUbicacion()">Consultar Ubicación</button>
+            <button class="btn btn-danger" onclick="eliminarSeleccionados()">Eliminar Seleccionados</button>
+            <button class="btn btn-primary" onclick="exportarTodosLosDatos()">📥 Exportar Todo</button>
+        </div>
+
+        <div class="content">
+            <div id="resultados">
+                <div class="empty-state">
+                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4"></path>
+                    </svg>
+                    <h3>No hay datos para mostrar</h3>
+                    <p>Ingrese datos o realice una consulta</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // ===== SISTEMA DE BASE DE DATOS =====
+        class DatabaseManager {
+            constructor() {
+                this.dbKey = 'UTNL_DATABASE_v2';
+                this.backupKey = 'UTNL_BACKUP_v2';
+                this.version = '2.0';
+            }
+
+            // Inicializar base de datos
+            init() {
+                try {
+                    const db = this.load();
+                    if (!db || !db.version) {
+                        this.createDatabase();
+                    }
+                    this.verificarIntegridad();
+                    console.log('✓ Base de datos inicializada correctamente');
+                } catch (error) {
+                    console.error('Error al inicializar BD:', error);
+                    this.createDatabase();
+                }
+            }
+
+            // Crear base de datos nueva
+            createDatabase() {
+                const newDB = {
+                    version: this.version,
+                    createdAt: new Date().toISOString(),
+                    lastModified: new Date().toISOString(),
+                    usuarios: {},
+                    metadata: {
+                        totalUsuarios: 0,
+                        totalRegistros: 0
+                    }
+                };
+                this.save(newDB);
+                console.log('✓ Nueva base de datos creada');
+            }
+
+            // Cargar base de datos
+            load() {
+                try {
+                    const data = window.localStorage.getItem(this.dbKey);
+                    return data ? JSON.parse(data) : null;
+                } catch (error) {
+                    console.error('Error al cargar BD:', error);
+                    return null;
+                }
+            }
+
+            // Guardar base de datos
+            save(db) {
+                try {
+                    db.lastModified = new Date().toISOString();
+                    window.localStorage.setItem(this.dbKey, JSON.stringify(db));
+                    this.createBackup(db);
+                    return true;
+                } catch (error) {
+                    console.error('Error al guardar BD:', error);
+                    if (error.name === 'QuotaExceededError') {
+                        alert('⚠️ Espacio de almacenamiento lleno. Por favor, exporte y elimine datos antiguos.');
+                    }
+                    return false;
+                }
+            }
+
+            // Crear backup automático
+            createBackup(db) {
+                try {
+                    window.localStorage.setItem(this.backupKey, JSON.stringify({
+                        data: db,
+                        timestamp: new Date().toISOString()
+                    }));
+                } catch (error) {
+                    console.warn('No se pudo crear backup:', error);
+                }
+            }
+
+            // Restaurar desde backup
+            restoreBackup() {
+                try {
+                    const backup = window.localStorage.getItem(this.backupKey);
+                    if (backup) {
+                        const { data } = JSON.parse(backup);
+                        this.save(data);
+                        console.log('✓ Backup restaurado exitosamente');
+                        return true;
+                    }
+                } catch (error) {
+                    console.error('Error al restaurar backup:', error);
+                }
+                return false;
+            }
+
+            // Verificar integridad de la base de datos
+            verificarIntegridad() {
+                const db = this.load();
+                if (!db) return false;
+
+                let cambios = false;
+
+                // Verificar estructura de usuarios
+                if (!db.usuarios) {
+                    db.usuarios = {};
+                    cambios = true;
+                }
+
+                // Verificar metadatos
+                if (!db.metadata) {
+                    db.metadata = {
+                        totalUsuarios: Object.keys(db.usuarios).length,
+                        totalRegistros: 0
+                    };
+                    cambios = true;
+                }
+
+                // Recalcular estadísticas
+                let totalRegistros = 0;
+                Object.values(db.usuarios).forEach(usuario => {
+                    if (usuario.datos) {
+                        totalRegistros += usuario.datos.length;
+                    }
+                });
+                
+                if (db.metadata.totalRegistros !== totalRegistros) {
+                    db.metadata.totalRegistros = totalRegistros;
+                    cambios = true;
+                }
+
+                if (cambios) {
+                    this.save(db);
+                    console.log('✓ Integridad de BD verificada y corregida');
+                }
+
+                return true;
+            }
+
+            // Obtener estadísticas de almacenamiento
+            getStorageStats() {
+                try {
+                    const db = this.load();
+                    const dbString = JSON.stringify(db);
+                    const bytes = new Blob([dbString]).size;
+                    const kb = (bytes / 1024).toFixed(2);
+                    const mb = (bytes / 1024 / 1024).toFixed(2);
+                    
+                    // localStorage típicamente tiene 5-10MB de límite
+                    const limitMB = 5;
+                    const percentage = ((bytes / 1024 / 1024) / limitMB * 100).toFixed(1);
+
+                    return {
+                        bytes,
+                        kb,
+                        mb,
+                        percentage,
+                        totalUsuarios: db?.metadata?.totalUsuarios || 0,
+                        totalRegistros: db?.metadata?.totalRegistros || 0
+                    };
+                } catch (error) {
+                    return null;
+                }
+            }
+
+            // Agregar usuario
+            addUser(username, userData) {
+                const db = this.load();
+                db.usuarios[username] = {
+                    ...userData,
+                    createdAt: new Date().toISOString(),
+                    lastAccess: new Date().toISOString(),
+                    datos: userData.datos || [],
+                    contadorUbicacion: userData.contadorUbicacion || { estanteria: 1, piso: 2, seccion: 1, posicion: 1 }
+                };
+                db.metadata.totalUsuarios = Object.keys(db.usuarios).length;
+                return this.save(db);
+            }
+
+            // Actualizar usuario
+            updateUser(username, userData) {
+                const db = this.load();
+                if (db.usuarios[username]) {
+                    db.usuarios[username] = {
+                        ...db.usuarios[username],
+                        ...userData,
+                        lastModified: new Date().toISOString()
+                    };
+                    
+                    // Actualizar total de registros
+                    let totalRegistros = 0;
+                    Object.values(db.usuarios).forEach(usuario => {
+                        totalRegistros += (usuario.datos?.length || 0);
+                    });
+                    db.metadata.totalRegistros = totalRegistros;
+                    
+                    return this.save(db);
+                }
+                return false;
+            }
+
+            // Obtener usuario
+            getUser(username) {
+                const db = this.load();
+                return db?.usuarios?.[username] || null;
+            }
+
+            // Obtener todos los usuarios
+            getAllUsers() {
+                const db = this.load();
+                return db?.usuarios || {};
+            }
+
+            // Eliminar usuario
+            deleteUser(username) {
+                const db = this.load();
+                if (db.usuarios[username]) {
+                    delete db.usuarios[username];
+                    db.metadata.totalUsuarios = Object.keys(db.usuarios).length;
+                    
+                    // Recalcular total de registros
+                    let totalRegistros = 0;
+                    Object.values(db.usuarios).forEach(usuario => {
+                        totalRegistros += (usuario.datos?.length || 0);
+                    });
+                    db.metadata.totalRegistros = totalRegistros;
+                    
+                    return this.save(db);
+                }
+                return false;
+            }
+
+            // Registrar acceso de usuario
+            logUserAccess(username) {
+                const db = this.load();
+                if (db.usuarios[username]) {
+                    db.usuarios[username].lastAccess = new Date().toISOString();
+                    this.save(db);
+                }
+            }
+
+            // Exportar base de datos completa
+            exportDatabase() {
+                const db = this.load();
+                const dataStr = JSON.stringify(db, null, 2);
+                const dataBlob = new Blob([dataStr], { type: 'application/json' });
+                const url = URL.createObjectURL(dataBlob);
+                const link = document.createElement('a');
+                link.href = url;
+                link.download = `UTNL_Database_${new Date().toISOString().split('T')[0]}.json`;
+                link.click();
+                URL.revokeObjectURL(url);
+            }
+
+            // Importar base de datos
+            importDatabase(jsonData) {
+                try {
+                    const importedDB = JSON.parse(jsonData);
+                    if (importedDB.version && importedDB.usuarios) {
+                        this.save(importedDB);
+                        console.log('✓ Base de datos importada exitosamente');
+                        return true;
+                    }
+                    throw new Error('Formato de base de datos inválido');
+                } catch (error) {
+                    console.error('Error al importar BD:', error);
+                    alert('❌ Error al importar: archivo inválido');
+                    return false;
+                }
+            }
+        }
+
+        // ===== FUNCIONES DEL CALENDARIO =====
+        function abrirSelectorFecha() {
+            const ahora = new Date();
+            mesActual = ahora.getMonth();
+            anioActual = ahora.getFullYear();
+            diaSeleccionado = null;
+            
+            renderizarCalendario();
+            document.getElementById('fechaPreview').textContent = 'Selecciona un día del calendario';
+            document.getElementById('modalCalendario').classList.remove('hidden');
+        }
+
+        function cerrarCalendario() {
+            document.getElementById('modalCalendario').classList.add('hidden');
+        }
+
+        function cambiarMes(direccion) {
+            mesActual += direccion;
+            if (mesActual > 11) {
+                mesActual = 0;
+                anioActual++;
+            } else if (mesActual < 0) {
+                mesActual = 11;
+                anioActual--;
+            }
+            renderizarCalendario();
+        }
+
+        function renderizarCalendario() {
+            const meses = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 
+                          'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
+            
+            document.getElementById('mesAnioActual').textContent = `${meses[mesActual]} ${anioActual}`;
+            
+            const primerDia = new Date(anioActual, mesActual, 1).getDay();
+            const ultimoDia = new Date(anioActual, mesActual + 1, 0).getDate();
+            const ultimoDiaMesAnterior = new Date(anioActual, mesActual, 0).getDate();
+            
+            const hoy = new Date();
+            const esHoy = (dia) => {
+                return dia === hoy.getDate() && 
+                       mesActual === hoy.getMonth() && 
+                       anioActual === hoy.getFullYear();
+            };
+            
+            const esDiaSeleccionado = (dia) => {
+                return dia === diaSeleccionado;
+            };
+            
+            let html = '';
+            
+            // Días del mes anterior
+            for (let i = primerDia - 1; i >= 0; i--) {
+                html += `<div class="calendar-day other-month">${ultimoDiaMesAnterior - i}</div>`;
+            }
+            
+            // Días del mes actual
+            for (let dia = 1; dia <= ultimoDia; dia++) {
+                const clases = ['calendar-day'];
+                if (esHoy(dia)) clases.push('today');
+                if (esDiaSeleccionado(dia)) clases.push('selected');
+                
+                html += `<div class="${clases.join(' ')}" onclick="seleccionarDia(${dia})">${dia}</div>`;
+            }
+            
+            // Días del mes siguiente para completar la grilla
+            const diasMostrados = primerDia + ultimoDia;
+            const diasRestantes = diasMostrados % 7 === 0 ? 0 : 7 - (diasMostrados % 7);
+            for (let i = 1; i <= diasRestantes; i++) {
+                html += `<div class="calendar-day other-month">${i}</div>`;
+            }
+            
+            document.getElementById('calendarioDias').innerHTML = html;
+        }
+
+        function seleccionarDia(dia) {
+            diaSeleccionado = dia;
+            renderizarCalendario();
+            actualizarPreviewFecha();
+        }
+
+        function actualizarPreviewFecha() {
+            if (diaSeleccionado) {
+                const meses = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 
+                              'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
+                
+                const diasSemana = ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'];
+                const fecha = new Date(anioActual, mesActual, diaSeleccionado);
+                const diaSemana = diasSemana[fecha.getDay()];
+                
+                document.getElementById('fechaPreview').textContent = 
+                    `📅 ${diaSemana}, ${diaSeleccionado} de ${meses[mesActual]} de ${anioActual}`;
+            }
+        }
+
+        function confirmarFecha() {
+            if (!diaSeleccionado) {
+                alert('❌ Por favor selecciona un día');
+                return;
+            }
+            
+            fechaSeleccionada = new Date(anioActual, mesActual, diaSeleccionado);
+            
+            const opciones = { 
+                weekday: 'long',
+                year: 'numeric', 
+                month: 'long', 
+                day: 'numeric'
+            };
+            
+            const fechaFormateada = fechaSeleccionada.toLocaleDateString('es-CO', opciones);
+            document.getElementById('fechaSeleccionada').textContent = `📅 ${fechaFormateada}`;
+            
+            cerrarCalendario();
+            mostrarNotificacion('✅ Fecha seleccionada correctamente');
+        }
+
+        // ===== INICIALIZACIÓN =====
+        const db = new DatabaseManager();
+        let usuarioActual = null;
+        let datos = [];
+        let contadorUbicacion = { estanteria: 1, piso: 2, seccion: 1, posicion: 1 };
+        let autoSaveTimer = null;
+
+        // Variables para el calendario
+        let fechaSeleccionada = null;
+        let mesActual = new Date().getMonth();
+        let anioActual = new Date().getFullYear();
+        let diaSeleccionado = null;
+
+        // Inicializar sistema
+        window.onload = function() {
+            db.init();
+            actualizarEstadisticasLogin();
+            console.log('✓ Sistema iniciado correctamente');
+        };
+
+        // ===== FUNCIONES DE INTERFAZ =====
+        function mostrarIndicadorGuardado() {
+            const indicator = document.getElementById('saveIndicator');
+            indicator.classList.add('show');
+            setTimeout(() => indicator.classList.remove('show'), 2000);
+        }
+
+        function actualizarEstadisticasLogin() {
+            const stats = db.getStorageStats();
+            if (stats) {
+                document.getElementById('statsUsuarios').textContent = `Usuarios registrados: ${stats.totalUsuarios}`;
+                document.getElementById('statsEspacio').textContent = `Espacio usado: ${stats.percentage}% (${stats.kb} KB)`;
+            }
+        }
+
+        function programarAutoGuardado() {
+            if (autoSaveTimer) clearTimeout(autoSaveTimer);
+            autoSaveTimer = setTimeout(() => guardarDatosUsuario(), 1000);
+        }
+
+        // ===== AUTENTICACIÓN =====
+        function mostrarRegistro() {
+            document.getElementById('loginContainer').classList.add('hidden');
+            document.getElementById('registerContainer').classList.remove('hidden');
+            document.getElementById('registerError').textContent = '';
+        }
+
+        function volverLogin() {
+            document.getElementById('registerContainer').classList.add('hidden');
+            document.getElementById('loginContainer').classList.remove('hidden');
+            document.getElementById('loginError').textContent = '';
+            limpiarFormularioRegistro();
+        }
+
+        function limpiarFormularioRegistro() {
+            document.getElementById('regNombre').value = '';
+            document.getElementById('regUsuario').value = '';
+            document.getElementById('regPassword').value = '';
+            document.getElementById('regPasswordConfirm').value = '';
+        }
+
+        function registrarUsuario() {
+            const nombre = document.getElementById('regNombre').value.trim();
+            const usuario = document.getElementById('regUsuario').value.trim();
+            const password = document.getElementById('regPassword').value;
+            const passwordConfirm = document.getElementById('regPasswordConfirm').value;
+            const errorDiv = document.getElementById('registerError');
+
+            if (!nombre || !usuario || !password) {
+                errorDiv.textContent = '❌ Complete todos los campos';
+                return;
+            }
+
+            if (password !== passwordConfirm) {
+                errorDiv.textContent = '❌ Las contraseñas no coinciden';
+                return;
+            }
+
+            if (password.length < 4) {
+                errorDiv.textContent = '❌ La contraseña debe tener al menos 4 caracteres';
+                return;
+            }
+
+            if (db.getUser(usuario)) {
+                errorDiv.textContent = '❌ El usuario ya existe';
+                return;
+            }
+
+            const nuevoUsuario = {
+                nombre: nombre,
+                password: password,
+                datos: [],
+                contadorUbicacion: { estanteria: 1, piso: 2, seccion: 1, posicion: 1 }
+            };
+
+            if (db.addUser(usuario, nuevoUsuario)) {
+                alert('✅ Usuario registrado exitosamente');
+                actualizarEstadisticasLogin();
+                volverLogin();
+            }
+        }
+
+        function iniciarSesion() {
+            const usuario = document.getElementById('loginUsuario').value.trim();
+            const password = document.getElementById('loginPassword').value;
+            const errorDiv = document.getElementById('loginError');
+
+            if (!usuario || !password) {
+                errorDiv.textContent = '❌ Complete todos los campos';
+                return;
+            }
+
+            const user = db.getUser(usuario);
+            if (!user) {
+                errorDiv.textContent = '❌ Usuario no encontrado';
+                return;
+            }
+
+            if (user.password !== password) {
+                errorDiv.textContent = '❌ Contraseña incorrecta';
+                return;
+            }
+
+            usuarioActual = usuario;
+            datos = user.datos || [];
+            contadorUbicacion = user.contadorUbicacion || { estanteria: 1, piso: 2, seccion: 1, posicion: 1 };
+
+            db.logUserAccess(usuario);
+
+            document.getElementById('loginContainer').classList.add('hidden');
+            document.getElementById('mainContainer').style.display = 'block';
+            document.getElementById('currentUserName').textContent = user.nombre;
+            
+            mostrarTabla(datos);
+            console.log(`✓ Sesión iniciada: ${usuario}`);
+        }
+
+        function cerrarSesion() {
+            guardarDatosUsuario();
+            usuarioActual = null;
+            datos = [];
+            
+            document.getElementById('mainContainer').style.display = 'none';
+            document.getElementById('loginContainer').classList.remove('hidden');
+            document.getElementById('loginUsuario').value = '';
+            document.getElementById('loginPassword').value = '';
+            document.getElementById('loginError').textContent = '';
+            
+            actualizarEstadisticasLogin();
+            console.log('✓ Sesión cerrada');
+        }
+
+        // ===== PERFIL DE USUARIO =====
+        function abrirModalPerfil() {
+            const user = db.getUser(usuarioActual);
+            document.getElementById('perfilNombre').value = user.nombre;
+            document.getElementById('perfilUsuario').value = usuarioActual;
+            document.getElementById('perfilPasswordActual').value = '';
+            document.getElementById('perfilPasswordNueva').value = '';
+            document.getElementById('perfilPasswordConfirm').value = '';
+            document.getElementById('perfilError').textContent = '';
+            document.getElementById('perfilSuccess').textContent = '';
+            
+            // Actualizar estadísticas de usuario
+            document.getElementById('userStatsRegistros').textContent = `Registros totales: ${datos.length}`;
+            document.getElementById('userStatsUltimoAcceso').textContent = `Último acceso: ${new Date(user.lastAccess).toLocaleString('es-CO')}`;
+            
+            document.getElementById('modalPerfil').classList.remove('hidden');
+        }
+
+        function cerrarModalPerfil() {
+            document.getElementById('modalPerfil').classList.add('hidden');
+        }
+
+        function confirmarEliminarCuenta() {
+            const confirmacion = prompt('⚠️ ADVERTENCIA: Esta acción es PERMANENTE.\n\nEscribe "ELIMINAR" (en mayúsculas) para confirmar la eliminación de tu cuenta:');
+            
+            if (confirmacion === 'ELIMINAR') {
+                const passwordConfirmacion = prompt('Por seguridad, ingresa tu contraseña actual:');
+                const user = db.getUser(usuarioActual);
+                
+                if (passwordConfirmacion === user.password) {
+                    if (db.deleteUser(usuarioActual)) {
+                        alert('✅ Tu cuenta ha sido eliminada exitosamente.');
+                        cerrarModalPerfil();
+                        cerrarSesion();
+                    } else {
+                        alert('❌ Error al eliminar la cuenta. Intenta nuevamente.');
+                    }
+                } else {
+                    alert('❌ Contraseña incorrecta. Operación cancelada.');
+                }
+            } else if (confirmacion !== null) {
+                alert('❌ Confirmación incorrecta. Debes escribir exactamente "ELIMINAR".');
+            }
+        }
+
+        function abrirModalAdminUsuarios() {
+            const usuarios = db.getAllUsers();
+            const listaDiv = document.getElementById('listaUsuarios');
+            document.getElementById('adminError').textContent = '';
+            document.getElementById('adminSuccess').textContent = '';
+            
+            let html = '';
+            const usuariosArray = Object.entries(usuarios);
+            
+            if (usuariosArray.length === 0) {
+                html = '<div class="empty-state"><p>No hay usuarios registrados</p></div>';
+            } else {
+                usuariosArray.forEach(([username, userData]) => {
+                    const esUsuarioActual = username === usuarioActual;
+                    const numRegistros = userData.datos?.length || 0;
+                    const fechaCreacion = userData.createdAt ? new Date(userData.createdAt).toLocaleDateString('es-CO') : 'N/A';
+                    const ultimoAcceso = userData.lastAccess ? new Date(userData.lastAccess).toLocaleDateString('es-CO') : 'N/A';
+                    
+                    html += `
+                        <div class="user-card">
+                            <div class="user-card-header">
+                                <div class="user-card-title">
+                                    👤 ${userData.nombre}
+                                    ${esUsuarioActual ? '<span class="badge-current">Tú</span>' : ''}
+                                </div>
+                            </div>
+                            <div class="user-card-info">
+                                <strong>Usuario:</strong> ${username}
+                            </div>
+                            <div class="user-card-info">
+                                <strong>Registros:</strong> ${numRegistros}
+                            </div>
+                            <div class="user-card-info">
+                                <strong>Creado:</strong> ${fechaCreacion}
+                            </div>
+                            <div class="user-card-info">
+                                <strong>Último acceso:</strong> ${ultimoAcceso}
+                            </div>
+                            ${!esUsuarioActual ? `
+                                <div class="user-card-actions">
+                                    <button class="btn-card btn-card-danger" onclick="eliminarUsuarioAdmin('${username}', '${userData.nombre}')">
+                                        🗑️ Eliminar Usuario
+                                    </button>
+                                </div>
+                            ` : `
+                                <div class="user-card-info" style="color: #11998e; font-weight: 600; margin-top: 10px;">
+                                    ℹ️ Este es tu usuario actual (elimínalo desde "Mi Perfil")
+                                </div>
+                            `}
+                        </div>
+                    `;
+                });
+            }
+            
+            listaDiv.innerHTML = html;
+            document.getElementById('modalAdminUsuarios').classList.remove('hidden');
+        }
+
+        function cerrarModalAdminUsuarios() {
+            document.getElementById('modalAdminUsuarios').classList.add('hidden');
+        }
+
+        function eliminarUsuarioAdmin(username, nombre) {
+            const confirmacion = confirm(`⚠️ ¿Estás seguro de eliminar al usuario "${nombre}" (${username})?\n\nEsta acción es PERMANENTE y eliminará:\n- Todos sus datos\n- Todos sus registros\n- Su configuración\n\n¿Continuar?`);
+            
+            if (confirmacion) {
+                const segundaConfirmacion = prompt(`Para confirmar, escribe el nombre de usuario: ${username}`);
+                
+                if (segundaConfirmacion === username) {
+                    if (db.deleteUser(username)) {
+                        document.getElementById('adminSuccess').textContent = `✅ Usuario "${nombre}" eliminado exitosamente`;
+                        actualizarEstadisticasLogin();
+                        setTimeout(() => {
+                            abrirModalAdminUsuarios(); // Recargar la lista
+                        }, 1500);
+                    } else {
+                        document.getElementById('adminError').textContent = '❌ Error al eliminar usuario';
+                    }
+                } else {
+                    document.getElementById('adminError').textContent = '❌ Nombre de usuario incorrecto. Operación cancelada.';
+                }
+            }
+        }
+
+        function guardarPerfil() {
+            const nombre = document.getElementById('perfilNombre').value.trim();
+            const passwordActual = document.getElementById('perfilPasswordActual').value;
+            const passwordNueva = document.getElementById('perfilPasswordNueva').value;
+            const passwordConfirm = document.getElementById('perfilPasswordConfirm').value;
+            const errorDiv = document.getElementById('perfilError');
+            const successDiv = document.getElementById('perfilSuccess');
+
+            errorDiv.textContent = '';
+            successDiv.textContent = '';
+
+            if (!nombre) {
+                errorDiv.textContent = '❌ El nombre no puede estar vacío';
+                return;
+            }
+
+            const user = db.getUser(usuarioActual);
+            if (!passwordActual) {
+                errorDiv.textContent = '❌ Ingrese su contraseña actual';
+                return;
+            }
+
+            if (user.password !== passwordActual) {
+                errorDiv.textContent = '❌ Contraseña actual incorrecta';
+                return;
+            }
+
+            if (passwordNueva && passwordNueva !== passwordConfirm) {
+                errorDiv.textContent = '❌ Las nuevas contraseñas no coinciden';
+                return;
+            }
+
+            if (passwordNueva && passwordNueva.length < 4) {
+                errorDiv.textContent = '❌ La nueva contraseña debe tener al menos 4 caracteres';
+                return;
+            }
+
+            const actualizacion = {
+                nombre: nombre,
+                password: passwordNueva || user.password,
+                datos: user.datos,
+                contadorUbicacion: user.contadorUbicacion
+            };
+
+            if (db.updateUser(usuarioActual, actualizacion)) {
+                document.getElementById('currentUserName').textContent = nombre;
+                successDiv.textContent = '✅ Perfil actualizado exitosamente';
+                setTimeout(() => cerrarModalPerfil(), 1500);
+            }
+        }
+
+        // ===== GESTIÓN DE DATOS =====
+        function guardarDatosUsuario() {
+            if (usuarioActual) {
+                const user = db.getUser(usuarioActual);
+                db.updateUser(usuarioActual, {
+                    ...user,
+                    datos: datos,
+                    contadorUbicacion: contadorUbicacion
+                });
+                mostrarIndicadorGuardado();
+            }
+        }
+
+        function generarUbicacion() {
+            const ub = `${contadorUbicacion.estanteria}.${contadorUbicacion.piso}.${contadorUbicacion.seccion}.${contadorUbicacion.posicion}`;
+            
+            contadorUbicacion.posicion++;
+            if (contadorUbicacion.posicion > 10) {
+                contadorUbicacion.posicion = 1;
+                contadorUbicacion.seccion++;
+                if (contadorUbicacion.seccion > 5) {
+                    contadorUbicacion.seccion = 1;
+                    contadorUbicacion.piso++;
+                    if (contadorUbicacion.piso > 5) {
+                        contadorUbicacion.piso = 1;
+                        contadorUbicacion.estanteria++;
+                    }
+                }
+            }
+            
+            programarAutoGuardado();
+            return ub;
+        }
+
+        function ingresarDim() {
+            const item = document.getElementById('item').value.trim();
+            const dim = document.getElementById('numeroDim').value.trim();
+            const acta = document.getElementById('acta').value.trim();
+            const desc = document.getElementById('descripcion').value.trim();
+            const cant = document.getElementById('cantidad').value;
+
+            if (!item || !dim || !desc || !cant) {
+                alert('❌ Complete Item, Número DIM, Descripción y Cantidad');
+                return;
+            }
+
+            if (!fechaSeleccionada) {
+                alert('❌ Por favor seleccione una fecha y hora');
+                return;
+            }
+
+            const ubicacion = generarUbicacion();
+            
+            datos.push({
+                item: item,
+                dim: dim,
+                acta: acta || 'N/A',
+                fecha: fechaSeleccionada.toISOString(),
+                descripcion: desc,
+                cantidad: cant,
+                ubicacion: ubicacion,
+                fechaIngreso: new Date().toISOString(),
+                seleccionado: false
+            });
+
+            guardarDatosUsuario();
+            mostrarTabla(datos);
+            limpiarFormulario();
+            mostrarNotificacion('✅ Registro ingresado exitosamente');
+        }
+
+        function consultarDim() {
+            const dim = document.getElementById('numeroDim').value.trim();
+            if (!dim) {
+                alert('❌ Ingrese un número de DIM');
+                return;
+            }
+            const resultado = datos.filter(d => d.dim.toLowerCase().includes(dim.toLowerCase()));
+            mostrarTabla(resultado);
+        }
+
+        function consultarActaAnio() {
+            const acta = document.getElementById('acta').value.trim();
+
+            let resultado = datos;
+            
+            if (acta) {
+                resultado = resultado.filter(d => d.acta.toLowerCase().includes(acta.toLowerCase()));
+            }
+
+            mostrarTabla(resultado);
+        }
+
+        function consultarUbicacion() {
+            if (datos.length === 0) {
+                alert('❌ No hay datos ingresados');
+                return;
+            }
+            mostrarTabla(datos);
+        }
+
+        function eliminarSeleccionados() {
+            const seleccionados = datos.filter(d => d.seleccionado);
+            
+            if (seleccionados.length === 0) {
+                alert('❌ No hay elementos seleccionados');
+                return;
+            }
+
+            if (confirm(`¿Eliminar ${seleccionados.length} elemento(s)?`)) {
+                datos = datos.filter(d => !d.seleccionado);
+                guardarDatosUsuario();
+                mostrarTabla(datos);
+                mostrarNotificacion(`✅ ${seleccionados.length} elemento(s) eliminado(s)`);
+            }
+        }
+
+        // ===== EXPORTACIÓN E IMPORTACIÓN =====
+        function exportarDatosUsuario() {
+            const user = db.getUser(usuarioActual);
+            const exportData = {
+                usuario: usuarioActual,
+                nombre: user.nombre,
+                datos: datos,
+                contadorUbicacion: contadorUbicacion,
+                exportDate: new Date().toISOString()
+            };
+            
+            const dataStr = JSON.stringify(exportData, null, 2);
+            const dataBlob = new Blob([dataStr], { type: 'application/json' });
+            const url = URL.createObjectURL(dataBlob);
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = `UTNL_${usuarioActual}_${new Date().toISOString().split('T')[0]}.json`;
+            link.click();
+            URL.revokeObjectURL(url);
+            
+            mostrarNotificacion('✅ Datos exportados exitosamente');
+        }
+
+        function importarDatosUsuario(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                try {
+                    const importData = JSON.parse(e.target.result);
+                    
+                    if (importData.datos && Array.isArray(importData.datos)) {
+                        if (confirm(`¿Importar ${importData.datos.length} registros? Esto reemplazará los datos actuales.`)) {
+                            datos = importData.datos;
+                            if (importData.contadorUbicacion) {
+                                contadorUbicacion = importData.contadorUbicacion;
+                            }
+                            guardarDatosUsuario();
+                            mostrarTabla(datos);
+                            mostrarNotificacion('✅ Datos importados exitosamente');
+                            cerrarModalPerfil();
+                        }
+                    } else {
+                        alert('❌ Archivo inválido');
+                    }
+                } catch (error) {
+                    alert('❌ Error al importar archivo');
+                    console.error(error);
+                }
+            };
+            reader.readAsText(file);
+            event.target.value = '';
+        }
+
+        function exportarTodosLosDatos() {
+            if (confirm('¿Exportar toda la base de datos del sistema?')) {
+                db.exportDatabase();
+                mostrarNotificacion('✅ Base de datos exportada');
+            }
+        }
+
+        // ===== INTERFAZ =====
+        function mostrarTabla(data) {
+            const resultados = document.getElementById('resultados');
+            
+            if (data.length === 0) {
+                resultados.innerHTML = `
+                    <div class="empty-state">
+                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                        </svg>
+                        <h3>No se encontraron resultados</h3>
+                        <p>Intente con otros criterios de búsqueda</p>
+                    </div>
+                `;
+                return;
+            }
+
+            let html = `
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Seleccionar</th>
+                            <th># Item</th>
+                            <th>Número DIM</th>
+                            <th>Acta</th>
+                            <th>Fecha</th>
+                            <th>Descripción</th>
+                            <th>Cantidad</th>
+                            <th>Ubicación</th>
+                            <th>Fecha Ingreso</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+            `;
+
+            data.forEach((item, index) => {
+                const globalIndex = datos.indexOf(item);
+                const fechaIngreso = item.fechaIngreso ? new Date(item.fechaIngreso).toLocaleDateString('es-CO') : 'N/A';
+                const fechaRegistro = item.fecha ? new Date(item.fecha).toLocaleDateString('es-CO', {
+                    year: 'numeric',
+                    month: 'long',
+                    day: 'numeric'
+                }) : 'N/A';
+                
+                html += `
+                    <tr>
+                        <td><input type="checkbox" ${item.seleccionado ? 'checked' : ''} onchange="toggleSeleccion(${globalIndex})"></td>
+                        <td><strong>${item.item}</strong></td>
+                        <td><strong>${item.dim}</strong></td>
+                        <td>${item.acta}</td>
+                        <td><strong>${fechaRegistro}</strong></td>
+                        <td>${item.descripcion}</td>
+                        <td>${item.cantidad}</td>
+                        <td><span class="ubicacion-badge">${item.ubicacion}</span></td>
+                        <td>${fechaIngreso}</td>
+                    </tr>
+                `;
+            });
+
+            html += `</tbody></table>`;
+            resultados.innerHTML = html;
+        }
+
+        function toggleSeleccion(index) {
+            datos[index].seleccionado = !datos[index].seleccionado;
+            programarAutoGuardado();
+        }
+
+        function limpiarFormulario() {
+            document.getElementById('item').value = '';
+            document.getElementById('numeroDim').value = '';
+            document.getElementById('acta').value = '';
+            document.getElementById('descripcion').value = '';
+            document.getElementById('cantidad').value = '';
+            document.getElementById('fechaSeleccionada').textContent = 'Seleccionar fecha';
+            fechaSeleccionada = null;
+        }
+
+        function mostrarNotificacion(mensaje) {
+            const notif = document.createElement('div');
+            notif.style.cssText = `
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                background: #38ef7d;
+                color: white;
+                padding: 15px 25px;
+                border-radius: 10px;
+                box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+                z-index: 2000;
+                font-weight: 600;
+            `;
+            notif.textContent = mensaje;
+            document.body.appendChild(notif);
+            setTimeout(() => notif.remove(), 3000);
+        }
+
+        // ===== AUTO-GUARDADO Y RESPALDOS =====
+        window.onbeforeunload = function() {
+            guardarDatosUsuario();
+        };
+
+        setInterval(() => {
+            if (usuarioActual) {
+                guardarDatosUsuario();
+                console.log('🔄 Backup automático realizado');
+            }
+        }, 30000);
+
+        window.addEventListener('blur', () => {
+            if (usuarioActual) guardarDatosUsuario();
+        });
+
+        // Loader
+        window.addEventListener('load', () => {
+            const loader = document.getElementById('loaderContainer');
+            loader.classList.remove('hidden');
+            setTimeout(() => loader.classList.add('hidden'), 1000);
+        });
+    </script>
+</body>
+</html>
