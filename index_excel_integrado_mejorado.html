@@ -1,0 +1,861 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>NUEVA LOGISTICA UT</title>
+<link rel="shortcut icon" href="img/1.jpeg" type="image/x-icon" />
+<script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+<style>
+  /* ---------- Base & Layout ---------- */
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:Inter, "Segoe UI", system-ui, Arial; background:linear-gradient(135deg,#e6f0ff 0%,#f7fbff 100%);min-height:100vh;padding:18px;color:#10304a}
+  .wrap{max-width:1200px;margin:0 auto}
+  .centrar-imagen{display:block;margin:12px auto;width:12%}
+  .card{background:#fff;border-radius:14px;box-shadow:0 10px 30px rgba(16,48,74,0.08);padding:18px;margin-bottom:16px;transition:transform .25s ease, box-shadow .25s ease}
+  .card:has(.btn-animado:active){transform:translateY(2px)}
+  h1{font-size:1.6rem;color:#07314f;margin-bottom:6px}
+  p.lead{color:#3b5a72;font-size:.95rem;margin-bottom:8px}
+
+  /* ---------- Buttons animated ---------- */
+  .btn{display:inline-block;padding:10px 14px;border-radius:10px;border:none;cursor:pointer;font-weight:800;text-transform:none;letter-spacing:.2px;transition:transform .18s ease, box-shadow .18s ease}
+  .btn:active{transform:translateY(2px)}
+  .btn-animado{position:relative;overflow:visible;box-shadow:0 8px 24px rgba(102,126,234,0.18)}
+  .btn-animado::after{content:"";position:absolute;inset:-2px;border-radius:12px;background:linear-gradient(90deg, rgba(255,255,255,0.06), rgba(255,255,255,0));filter:blur(6px);opacity:.8;transform:translateY(4px);transition:transform .5s ease}
+  .btn-animado:hover{transform:translateY(-6px) scale(1.02);box-shadow:0 18px 36px rgba(102,126,234,0.24)}
+  .primary{background:linear-gradient(135deg,#667eea,#764ba2);color:#fff}
+  .success{background:linear-gradient(135deg,#11998e,#38ef7d);color:#fff}
+  .info{background:linear-gradient(135deg,#4facfe,#00f2fe);color:#072033}
+  .danger{background:linear-gradient(135deg,#ff6b6b,#ee5a6f);color:#fff}
+  .muted{background:#f1f5f9;color:#072033}
+
+  /* pulsing glow for important */
+  @keyframes pulseGlow {
+    0% { box-shadow:0 6px 16px rgba(102,126,234,0.12) }
+    50% { box-shadow:0 12px 30px rgba(102,126,234,0.22) }
+    100% { box-shadow:0 6px 16px rgba(102,126,234,0.12) }
+  }
+  .btn-pulse{animation:pulseGlow 2.6s infinite ease-in-out}
+
+  /* ---------- Header controls ---------- */
+  .topbar{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:12px}
+  .user-actions{display:flex;gap:8px;align-items:center}
+  .admin-button{margin-left:8px}
+
+  /* ---------- Status pills ---------- */
+  .pills{display:flex;gap:8px;align-items:center;margin-bottom:12px}
+  .pill{background:rgba(6,30,49,0.04);padding:8px 12px;border-radius:999px;font-weight:700;color:#083044}
+
+  /* ---------- Controls & form ---------- */
+  .controls{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:10px;margin-bottom:12px}
+  .form-field label{display:block;font-weight:700;margin-bottom:6px;color:#133048}
+  input[type=text], input[type=password], input[type=date], input[type=number]{
+    width:100%;padding:10px;border-radius:8px;border:1px solid #e6eef8;background:#fbfdff
+  }
+
+  /* ---------- Table ---------- */
+  .table-wrapper{overflow:auto;background:#fff;border-radius:10px;padding:12px}
+  table{width:100%;border-collapse:collapse;font-size:.95rem}
+  th{background:linear-gradient(90deg,#667eea,#764ba2);color:#fff;text-align:left;padding:10px;border-radius:6px}
+  td{padding:10px;border-bottom:1px solid #f1f5f9}
+  .ubic{display:inline-block;padding:6px 10px;border-radius:999px;background:linear-gradient(90deg,#4facfe,#00f2fe);color:#022634;font-weight:800}
+
+  /* ---------- Modals ---------- */
+  .overlay{position:fixed;inset:0;background:rgba(8,18,28,0.45);display:flex;align-items:center;justify-content:center;z-index:9999}
+  .modal{background:#fff;border-radius:12px;padding:18px;width:560px;max-width:95%;box-shadow:0 20px 50px rgba(8,18,28,0.25);animation:pop .18s ease}
+  @keyframes pop{from{transform:translateY(8px) scale(.99);opacity:0}to{transform:none;opacity:1}}
+
+  .modal h3{margin-bottom:8px;color:#072033}
+  .modal .row{display:flex;gap:8px;margin-top:8px}
+
+  /* ---------- Small helpers ---------- */
+  .right{margin-left:auto}
+  .hidden{display:none !important}
+  .toast{position:fixed;right:18px;top:18px;background:#062a40;color:#fff;padding:10px 14px;border-radius:10px;z-index:99999;font-weight:800}
+  .btn-small{padding:6px 10px;border-radius:8px;font-weight:800}
+
+  /* animated return button */
+  .btn-return{border-radius:40px;padding:10px 18px;font-weight:900;animation:jump 1s infinite alternate;box-shadow:0 8px 24px rgba(255,94,98,0.16)}
+  @keyframes jump{from{transform:translateY(0)}to{transform:translateY(-8px)}}
+
+  /* responsive */
+  @media (max-width:700px){ .controls{grid-template-columns:repeat(1,1fr)} .centrar-imagen{width:22%} }
+
+  /* ---------- LOADER (overlay) ---------- */
+  #loaderOverlay {
+    position: fixed;
+    inset: 0;
+    background: #555; /* fondo gris oscuro pedido */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    z-index: 999999;
+  }
+  .loader {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 110px;
+    height: 110px;
+    perspective: 780px;
+    margin-top: 12px;
+  }
+  .loader .loader-text {
+    font-size: 18px;
+    font-weight: 800;
+    color: #ffffff;
+    margin-bottom: 12px; /* texto encima del aro */
+    text-align: center;
+  }
+  .load-inner {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    box-sizing: border-box;
+    border-radius: 50%;
+    border-color: #fff; /* anillos blancos */
+  }
+  .load-inner.load-one { border-bottom: 3px solid #fff; animation: rotate1 1.15s linear infinite; }
+  .load-inner.load-two { border-right: 3px solid #fff; animation: rotate2 1.15s 0.1s linear infinite; }
+  .load-inner.load-three { border-top: 3px solid #fff; animation: rotate3 1.15s 0.15s linear infinite; }
+
+  @keyframes rotate1 { 0% {transform: rotateX(45deg) rotateY(-45deg) rotateZ(0deg);} 100% {transform: rotateX(45deg) rotateY(-45deg) rotateZ(360deg);} }
+  @keyframes rotate2 { 0% {transform: rotateX(45deg) rotateY(45deg) rotateZ(0deg);} 100% {transform: rotateX(45deg) rotateY(45deg) rotateZ(360deg);} }
+  @keyframes rotate3 { 0% {transform: rotateX(-60deg) rotateY(0deg) rotateZ(0deg);} 100% {transform: rotateX(-60deg) rotateY(0deg) rotateZ(360deg);} }
+
+  /* hide loader by default via inline style in DOM when not needed */
+</style>
+</head>
+<body>
+<!-- LOADER OVERLAY -->
+<div id="loaderOverlay" style="display:flex">
+  <div class="loader-text">Iniciando sistema UT...</div>
+  <div class="loader" aria-hidden="true">
+    <div class="load-inner load-one"></div>
+    <div class="load-inner load-two"></div>
+    <div class="load-inner load-three"></div>
+  </div>
+</div>
+
+<!-- MAIN CONTENT -->
+<div class="wrap" id="appWrap" style="opacity:0;transition:opacity .5s ease">
+  <!-- Logo -->
+  <img class="centrar-imagen" src="img/1.jpeg" alt="logo">
+
+  <!-- Login card -->
+  <div id="loginCard" class="card">
+    <h1>Unión Temporal Nueva Logística</h1>
+    <p class="lead">Inicia sesión para acceder al sistema</p>
+
+    <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:10px">
+      <input id="loginUsuario" type="text" placeholder="Usuario" style="flex:1">
+      <input id="loginPassword" type="password" placeholder="Contraseña" style="flex:1">
+      <button class="btn btn-animado primary btn-pulse" onclick="iniciarSesion()">Ingresar</button>
+    </div>
+    <div style="margin-top:10px;display:flex;gap:8px">
+      <button class="btn btn-animado info" onclick="mostrarRegistroModal()">Registrar</button>
+      <button class="btn btn-animado muted" onclick="mostrarInfo()">¿Cómo funciona?</button>
+    </div>
+    <div id="loginError" style="color:#d63333;margin-top:10px"></div>
+  </div>
+
+  <!-- MAIN (hidden until login) -->
+  <div id="main" class="card hidden">
+    <div class="topbar">
+      <div>
+        <h1>Panel UT</h1>
+        <p class="lead">Control de inventario y sincronización local con Excel</p>
+      </div>
+
+      <div class="user-actions">
+        <div id="currentUserName" style="font-weight:900;color:#072033"></div>
+        <button id="btnCambiarPass" class="btn btn-animado small btn-small muted" onclick="abrirCambiarClave()" title="Cambiar contraseña">🔐 Cambiar Clave</button>
+        <button id="btnEliminarPerfil" class="btn btn-animado danger btn-small" onclick="eliminarMiPerfil()" title="Eliminar mi cuenta">🗑️ Eliminar Perfil</button>
+
+        <!-- Admin button: visible solo para admin -->
+        <button id="btnAdminPanel" class="btn btn-animado primary admin-button hidden" title="Gestionar Usuarios" onclick="abrirModalAdmin()">
+          👥 Gestionar Usuarios
+        </button>
+
+        <button class="btn btn-animado muted" onclick="cerrarSesion()">Salir</button>
+      </div>
+    </div>
+
+    <!-- status -->
+    <div class="pills">
+      <div id="syncPill" class="pill">Sincronización: inactiva</div>
+      <div id="filePill" class="pill">Archivo vigilado: ninguno</div>
+      <div id="lastSync" class="pill">Últ. sincronización: N/A</div>
+    </div>
+
+    <!-- Watch & Import -->
+    <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px">
+      <button id="watchBtn" class="btn btn-animado info" onclick="toggleWatch()">Vigilar archivo Excel</button>
+      <button id="stopWatchBtn" class="btn btn-animado danger hidden" onclick="stopWatching()">Detener vigilancia</button>
+      <button class="btn btn-animado primary" onclick="document.getElementById('excelFile').click()">📤 Importar Excel</button>
+      <input type="file" id="excelFile" accept=".xlsx,.xls" style="display:none" onchange="importarExcel(event)">
+      <button class="btn btn-animado success" onclick="exportarExcel()">📄 Exportar Excel</button>
+      <button class="btn btn-animado muted" onclick="forzarImportDesdeHandle()">Forzar import (vig.)</button>
+      <!-- Backup / Restore DB to move between devices -->
+      <button class="btn btn-animado muted" onclick="exportarBackupDB()">📥 Exportar backup (JSON)</button>
+      <button class="btn btn-animado muted" onclick="document.getElementById('backupFile').click()">📤 Importar backup (JSON)</button>
+      <input type="file" id="backupFile" accept=".json" style="display:none" onchange="importarBackupDB(event)">
+    </div>
+
+    <!-- Controls -->
+    <div class="controls">
+      <div class="form-field">
+        <label># Item</label><input id="item" type="text" placeholder="ITEM-001">
+      </div>
+      <div class="form-field">
+        <label>Número DIM</label><input id="numeroDim" type="text" placeholder="DIM-001">
+      </div>
+      <div class="form-field">
+        <label>Acta</label><input id="acta" type="text" placeholder="ACT-2025-001">
+      </div>
+      <div class="form-field">
+        <label>Fecha</label><input id="fechaSeleccionadaInput" type="date">
+      </div>
+      <div class="form-field">
+        <label>Descripción</label><input id="descripcion" type="text" placeholder="Descripción">
+      </div>
+      <div class="form-field">
+        <label>Cantidad</label><input id="cantidad" type="number" min="0" value="0">
+      </div>
+    </div>
+
+    <div style="display:flex;gap:8px;margin-bottom:12px;flex-wrap:wrap">
+      <button class="btn btn-animado primary" onclick="consultarDim()">Consultar DIM</button>
+      <button class="btn btn-animado primary" onclick="consultarActa()">Consultar Acta</button>
+      <button class="btn btn-animado primary" onclick="consultarUbic()">Consultar Ubicación</button>
+      <button class="btn btn-animado success" onclick="ingresarDim()">Ingresar</button>
+      <button class="btn btn-animado danger" onclick="eliminarSeleccionados()">Eliminar seleccionados</button>
+      <button class="btn btn-animado muted" onclick="mostrarTabla(datos)">Refrescar vista</button>
+    </div>
+
+    <!-- Table -->
+    <div id="resultados" class="table-wrapper">
+      <div style="padding:30px;text-align:center;color:#55707f">
+        <strong>No hay datos para mostrar</strong><div>Importa un Excel o ingresa registros</div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- ---------- MODALES ---------- -->
+
+<!-- Registro Modal -->
+<div id="modalRegistro" class="overlay hidden">
+  <div class="modal">
+    <h3>Registrar Usuario</h3>
+    <div style="margin-top:8px">
+      <label>Nombre completo</label><input id="regNombre" type="text">
+      <label style="margin-top:8px">Usuario (ID)</label><input id="regUsuario" type="text">
+      <label style="margin-top:8px">Contraseña</label><input id="regPassword" type="password">
+      <label style="margin-top:8px">Confirmar contraseña</label><input id="regPasswordConfirm" type="password">
+      <div style="display:flex;gap:8px;margin-top:12px">
+        <button class="btn btn-animado primary" onclick="registrarUsuarioModal()">Registrar</button>
+        <button class="btn btn-animado muted" onclick="cerrarRegistroModal()">Cancelar</button>
+      </div>
+      <div id="regError" style="color:#d63333;margin-top:8px"></div>
+    </div>
+  </div>
+</div>
+
+<!-- Cambiar Contraseña Modal -->
+<div id="modalCambiar" class="overlay hidden">
+  <div class="modal">
+    <h3>Cambiar contraseña</h3>
+    <label>Contraseña actual</label><input id="curPass" type="password">
+    <label style="margin-top:8px">Nueva contraseña</label><input id="newPass" type="password">
+    <label style="margin-top:8px">Confirmar nueva</label><input id="confirmNewPass" type="password">
+    <div style="display:flex;gap:8px;margin-top:12px">
+      <button class="btn btn-animado primary" onclick="cambiarClave()">Guardar</button>
+      <button class="btn btn-animado muted" onclick="cerrarCambiarClave()">Cancelar</button>
+    </div>
+    <div id="changePassMsg" style="margin-top:8px"></div>
+  </div>
+</div>
+
+<!-- Admin Users Modal -->
+<div id="modalAdmin" class="overlay hidden">
+  <div class="modal" style="max-width:760px">
+    <h3>👥 Administrar Usuarios</h3>
+    <div id="adminList" style="margin-top:10px;max-height:420px;overflow:auto"></div>
+    <div style="display:flex;gap:8px;margin-top:12px">
+      <button class="btn btn-animado muted" onclick="cerrarModalAdmin()">Cerrar</button>
+    </div>
+    <div id="adminMsg" style="margin-top:8px"></div>
+  </div>
+</div>
+
+<!-- ---------- SCRIPTS (largo) ---------- -->
+<script>
+/* ------------- DatabaseManager (localStorage) ------------- */
+class DatabaseManager {
+  constructor(){ this.dbKey='UTNL_DATABASE_v2'; this.backupKey='UTNL_BACKUP_v2'; this.version='2.0'; }
+  init(){ try { const db=this.load(); if(!db||!db.version) this.createDatabase(); this.verificarIntegridad(); } catch(e){ this.createDatabase(); } }
+  createDatabase(){ const newDB={version:this.version,createdAt:new Date().toISOString(),lastModified:new Date().toISOString(),usuarios:{},metadata:{totalUsuarios:0,totalRegistros:0}}; this.save(newDB); }
+  load(){ try{ const s=localStorage.getItem(this.dbKey); return s?JSON.parse(s):null }catch(e){ return null } }
+  save(db){ try{ db.lastModified=new Date().toISOString(); localStorage.setItem(this.dbKey,JSON.stringify(db)); localStorage.setItem(this.backupKey,JSON.stringify({data:db,timestamp:new Date().toISOString()})); return true }catch(e){ console.error(e); return false } }
+  verificarIntegridad(){ const db=this.load()||{}; if(!db.usuarios) db.usuarios={}; if(!db.metadata) db.metadata={totalUsuarios:Object.keys(db.usuarios).length,totalRegistros:0}; let total=0; Object.values(db.usuarios).forEach(u=> total+=(u.datos?.length||0)); db.metadata.totalRegistros=total; this.save(db) }
+  addUser(user, data){ const db=this.load(); db.usuarios[user]= {...data, createdAt:new Date().toISOString(), lastAccess:new Date().toISOString()}; db.metadata.totalUsuarios=Object.keys(db.usuarios).length; return this.save(db) }
+  updateUser(user, data){ const db=this.load(); if(db.usuarios[user]){ db.usuarios[user]={...db.usuarios[user], ...data, lastModified:new Date().toISOString()}; let total=0; Object.values(db.usuarios).forEach(u=> total+=(u.datos?.length||0)); db.metadata.totalRegistros=total; return this.save(db) } return false }
+  getUser(user){ const db=this.load(); return db?.usuarios?.[user]||null }
+  getAllUsers(){ return this.load()?.usuarios || {} }
+  deleteUser(user){ const db=this.load(); if(db.usuarios[user]){ delete db.usuarios[user]; db.metadata.totalUsuarios=Object.keys(db.usuarios).length; let total=0; Object.values(db.usuarios).forEach(u=> total+=(u.datos?.length||0)); db.metadata.totalRegistros=total; return this.save(db) } return false }
+  logUserAccess(user){ const db=this.load(); if(db.usuarios[user]){ db.usuarios[user].lastAccess=new Date().toISOString(); this.save(db) } }
+}
+const db = new DatabaseManager();
+
+/* ------------- Global state ------------- */
+let usuarioActual = null;
+let datos = [];
+let contadorUbicacion = { estanteria:1, piso:2, seccion:1, posicion:1 };
+
+/* ------------- File System Access (watch) ------------- */
+let excelFileHandle = null;
+let excelLastModified = 0;
+let excelLastSize = 0;
+let watchInterval = null;
+const WATCH_INTERVAL_MS = 10000; // 10s
+
+/* ------------- Init with loader behavior ------------- */
+function hideLoaderAndShowApp(){
+  const loader = document.getElementById('loaderOverlay');
+  const app = document.getElementById('appWrap');
+  loader.style.display = 'none';
+  app.style.opacity = '1';
+  document.body.style.overflow = 'auto';
+}
+
+function showLoaderInstant(){
+  const loader = document.getElementById('loaderOverlay');
+  const app = document.getElementById('appWrap');
+  loader.style.display = 'flex';
+  app.style.opacity = '0';
+  document.body.style.overflow = 'hidden';
+}
+
+window.addEventListener('load', () => {
+  db.init();
+  ensureAdminExists();
+  updateUIInitial();
+  setTimeout(() => {
+    hideLoaderAndShowApp();
+  }, 3000);
+});
+
+/* ------------- UI helpers ------------- */
+function mostrarToast(msg, tiempo=2500){ const t=document.createElement('div'); t.className='toast'; t.textContent=msg; document.body.appendChild(t); setTimeout(()=>t.remove(),tiempo) }
+function updateTopUI(){
+  document.getElementById('currentUserName').textContent = usuarioActual ? `${db.getUser(usuarioActual)?.nombre || usuarioActual}` : '';
+  document.getElementById('filePill').textContent = excelFileHandle ? `Archivo vigilado: ${excelFileHandle.name||'seleccionado'}` : 'Archivo vigilado: ninguno';
+  document.getElementById('syncPill').textContent = excelFileHandle ? 'Sincronización: activa' : 'Sincronización: inactiva';
+}
+function updateUIInitial(){ updateTopUI(); }
+
+/* ------------- AUTH / LOGIN ------------- */
+function mostrarRegistroModal(){ document.getElementById('modalRegistro').classList.remove('hidden'); document.getElementById('regError').textContent=''; }
+function cerrarRegistroModal(){ document.getElementById('modalRegistro').classList.add('hidden'); }
+function registrarUsuarioModal(){
+  const nombre = document.getElementById('regNombre').value.trim();
+  const usuario = document.getElementById('regUsuario').value.trim();
+  const pass = document.getElementById('regPassword').value;
+  const pass2 = document.getElementById('regPasswordConfirm').value;
+  const err = document.getElementById('regError');
+  err.textContent='';
+  if(!nombre||!usuario||!pass){ err.textContent='Completa todos los campos'; return; }
+  if(pass.length<4){ err.textContent='La contraseña debe tener al menos 4 caracteres'; return; }
+  if(pass !== pass2){ err.textContent='Las contraseñas no coinciden'; return; }
+  if(db.getUser(usuario)){ err.textContent='Usuario ya existe'; return; }
+  db.addUser(usuario, { nombre, password:pass, datos:[], contadorUbicacion:contadorUbicacion });
+  cerrarRegistroModal();
+  mostrarToast('Usuario registrado ✅');
+}
+
+/* original login auth logic renamed */
+function iniciarSesionAuth(){
+  const usuario = document.getElementById('loginUsuario').value.trim();
+  const pass = document.getElementById('loginPassword').value;
+  const err = document.getElementById('loginError');
+  err.textContent='';
+  if(!usuario||!pass){ err.textContent='Completa usuario y contraseña'; hideLoaderAndShowApp(); return; }
+  const user = db.getUser(usuario);
+  if(!user){ err.textContent='Usuario no encontrado'; hideLoaderAndShowApp(); return; }
+  if(user.password !== pass){ err.textContent='Contraseña incorrecta'; hideLoaderAndShowApp(); return; }
+  usuarioActual = usuario;
+  datos = user.datos || [];
+  contadorUbicacion = user.contadorUbicacion || contadorUbicacion;
+  db.logUserAccess(usuario);
+  document.getElementById('loginCard').classList.add('hidden');
+  document.getElementById('main').classList.remove('hidden');
+  if(usuarioActual === 'admin'){ document.getElementById('btnAdminPanel').classList.remove('hidden'); } else { document.getElementById('btnAdminPanel').classList.add('hidden'); }
+  updateTopUI(); mostrarTabla(datos);
+  mostrarToast('Sesión iniciada ✅');
+  hideLoaderAndShowApp();
+}
+
+/* public function called by button: shows loader 3s then runs auth */
+function iniciarSesion(){
+  showLoaderInstant();
+  setTimeout(() => {
+    iniciarSesionAuth();
+  }, 3000); // 3 seconds as requested
+}
+
+function cerrarSesion(){
+  guardarDatosUsuario();
+  usuarioActual = null; datos=[]; document.getElementById('main').classList.add('hidden'); document.getElementById('loginCard').classList.remove('hidden');
+  updateTopUI();
+}
+
+/* ------------- Perfil: cambiar clave & eliminar propio perfil ------------- */
+function abrirCambiarClave(){ document.getElementById('modalCambiar').classList.remove('hidden'); document.getElementById('changePassMsg').textContent=''; document.getElementById('curPass').value=''; document.getElementById('newPass').value=''; document.getElementById('confirmNewPass').value=''; }
+function cerrarCambiarClave(){ document.getElementById('modalCambiar').classList.add('hidden'); }
+
+function cambiarClave(){
+  const cur = document.getElementById('curPass').value;
+  const neu = document.getElementById('newPass').value;
+  const conf = document.getElementById('confirmNewPass').value;
+  const msg = document.getElementById('changePassMsg');
+  msg.textContent=''; msg.style.color='#d63333';
+  if(!usuarioActual){ msg.textContent='No hay sesión activa'; return; }
+  const user = db.getUser(usuarioActual);
+  if(!cur || !neu || !conf){ msg.textContent='Completa todos los campos'; return; }
+  if(user.password !== cur){ msg.textContent='Contraseña actual incorrecta'; return; }
+  if(neu.length<4){ msg.textContent='La nueva contraseña debe tener al menos 4 caracteres'; return; }
+  if(neu !== conf){ msg.textContent='Las contraseñas no coinciden'; return; }
+  db.updateUser(usuarioActual, { ...user, password:neu });
+  msg.style.color='#0a9b5b'; msg.textContent='Contraseña actualizada ✅';
+  setTimeout(()=> cerrarCambiarClave(),1200);
+}
+
+function eliminarMiPerfil(){
+  if(!usuarioActual){ alert('No has iniciado sesión'); return; }
+  if(usuarioActual === 'admin'){ if(!confirm('Eliminar admin hará que no puedas usar funciones administrativas. ¿Seguro?')) return; }
+  const confirmText = prompt('⚠️ Escribe ELIMINAR para confirmar la eliminación de tu cuenta (esta acción es irreversible):');
+  if(confirmText !== 'ELIMINAR'){ alert('Confirmación no válida. Acción cancelada.'); return; }
+  const password = prompt('Ingresa tu contraseña actual para confirmar:');
+  const user = db.getUser(usuarioActual);
+  if(!user || password !== user.password){ alert('Contraseña incorrecta. Acción cancelada.'); return; }
+  db.deleteUser(usuarioActual);
+  alert('Cuenta eliminada ✅');
+  cerrarSesion();
+}
+
+/* ------------- Admin: listar y eliminar usuarios (solo admin) ------------- */
+function abrirModalAdmin(){
+  if(usuarioActual !== 'admin'){ mostrarToast('Acceso denegado'); return; }
+  const container = document.getElementById('adminList'); container.innerHTML='';
+  const users = db.getAllUsers();
+  const entries = Object.entries(users);
+  if(entries.length === 0){ container.innerHTML = '<div>No hay usuarios</div>'; } else {
+    entries.forEach(([username, udata])=>{
+      const card = document.createElement('div');
+      card.style.display='flex'; card.style.alignItems='center'; card.style.justifyContent='space-between'; card.style.padding='10px 6px'; card.style.borderBottom='1px solid #eef5fb';
+      const left = document.createElement('div'); left.innerHTML = `<strong>${udata.nombre}</strong> <div style="color:#556b78;font-size:.9rem">${username} · Reg: ${udata.createdAt ? new Date(udata.createdAt).toLocaleDateString() : 'N/A'}</div>`;
+      const actions = document.createElement('div');
+      const btnReset = document.createElement('button'); btnReset.className='btn btn-small muted'; btnReset.textContent='Restablecer clave'; btnReset.onclick = ()=> resetearClaveUsuario(username);
+      const btnDel = document.createElement('button'); btnDel.className='btn btn-small danger'; btnDel.style.marginLeft='6px'; btnDel.textContent='Eliminar'; btnDel.onclick = ()=> eliminarUsuarioAdmin(username, udata.nombre);
+      actions.appendChild(btnReset);
+      if(username !== 'admin') actions.appendChild(btnDel);
+      card.appendChild(left); card.appendChild(actions);
+      container.appendChild(card);
+    });
+  }
+  document.getElementById('modalAdmin').classList.remove('hidden');
+}
+
+function cerrarModalAdmin(){ document.getElementById('modalAdmin').classList.add('hidden'); document.getElementById('adminMsg').textContent=''; }
+
+function eliminarUsuarioAdmin(username, nombre){
+  if(usuarioActual !== 'admin'){ alert('Acceso denegado'); return; }
+  if(!confirm(`¿Eliminar al usuario "${nombre}" (${username})? Esta acción es irreversible.`)) return;
+  if(db.deleteUser(username)){ document.getElementById('adminMsg').textContent = `Usuario ${username} eliminado ✅`; abrirModalAdmin(); } else { document.getElementById('adminMsg').textContent = 'Error al eliminar'; }
+}
+
+function resetearClaveUsuario(username){
+  if(usuarioActual !== 'admin'){ alert('Acceso denegado'); return; }
+  const nueva = prompt(`Ingresa la nueva contraseña para ${username} (mín 4 car):`);
+  if(!nueva || nueva.length<4){ alert('Contraseña inválida'); return; }
+  const user = db.getUser(username); if(!user){ alert('Usuario no hallado'); return; }
+  db.updateUser(username, {...user, password:nueva}); alert(`Contraseña de ${username} actualizada ✅`);
+}
+
+/* ------------- Datos: agregar, mostrar, eliminar ------------- */
+function generarUbicacion(){
+  const ub = `${contadorUbicacion.estanteria}.${contadorUbicacion.piso}.${contadorUbicacion.seccion}.${contadorUbicacion.posicion}`;
+  contadorUbicacion.posicion++;
+  if(contadorUbicacion.posicion>10){ contadorUbicacion.posicion=1; contadorUbicacion.seccion++; if(contadorUbicacion.seccion>5){ contadorUbicacion.seccion=1; contadorUbicacion.piso++; if(contadorUbicacion.piso>5){ contadorUbicacion.piso=1; contadorUbicacion.estanteria++; } } }
+  guardarDatosUsuario();
+  return ub;
+}
+
+function ingresarDim(){
+  if(!usuarioActual){ alert('Inicia sesión'); return; }
+  const item = document.getElementById('item').value.trim();
+  const dim = document.getElementById('numeroDim').value.trim();
+  const acta = document.getElementById('acta').value.trim();
+  const fecha = document.getElementById('fechaSeleccionadaInput').value; // date input returns yyyy-mm-dd
+  const desc = document.getElementById('descripcion').value.trim();
+  const cant = Number(document.getElementById('cantidad').value || 0);
+  if(!item || !dim || !desc || !cant || !fecha){ alert('Completa Item, DIM, Descripción, Cantidad y Fecha'); return; }
+  const ubic = generarUbicacion();
+  // here we keep fechaRaw to preserve format from import (for manual entry we use yyyy-mm-dd)
+  datos.push({ item, dim, acta:acta||'', fechaRaw: fecha, descripcion:desc, cantidad:cant, ubicacion:ubic, fechaIngresoRaw: new Date().toISOString(), seleccionado:false });
+  guardarDatosUsuario();
+  mostrarTabla(datos);
+  limpiarInputs();
+  mostrarToast('Registro ingresado ✅');
+  intentarEscribirExcelVigilado(); // intentar escribir si hay archivo vigilado
+}
+
+function consultarDim(){
+  const dim = (document.getElementById('numeroDim').value||'').trim();
+  if(!dim){ alert('Ingresa DIM'); return; }
+  const resultado = datos.filter(d=>String((d.dim||'').trim())===dim);
+  if(resultado.length===0){ mostrarTabla([]); mostrarToast('No se encontraron registros'); return; }
+  mostrarTabla(resultado);
+  agregarBotonVolver();
+}
+
+function consultarActa(){
+  const actaVal = (document.getElementById('acta').value||'').trim();
+  if(!actaVal){ alert('Ingresa número de Acta'); return; }
+  const resultado = datos.filter(d=> String((d.acta||'').trim()) === actaVal );
+  if(resultado.length===0){ mostrarTabla([]); mostrarToast('No se encontraron registros por Acta'); return; }
+  mostrarTabla(resultado);
+  agregarBotonVolver();
+}
+
+function consultarUbic(){
+  const ubicVal = (document.getElementById('item').value||'').trim(); // allow passing via item input or ask user
+  let valueToCheck = '';
+  // try to use description input if user put something there as well. We'll ask via prompt if empty.
+  if(ubicVal) valueToCheck = ubicVal;
+  else {
+    const entrada = prompt('Ingresa la ubicación a consultar (ej: 1.2.1.1):');
+    if(!entrada) return;
+    valueToCheck = entrada.trim();
+  }
+  const resultado = datos.filter(d=> String((d.ubicacion||d.ubic||'').trim()) === valueToCheck );
+  if(resultado.length===0){ mostrarTabla([]); mostrarToast('No se encontraron registros por Ubicación'); return; }
+  mostrarTabla(resultado);
+  agregarBotonVolver();
+}
+
+function agregarBotonVolver(){
+  const cont = document.getElementById('resultados');
+  if(cont.querySelector('.btn-return')) return;
+  const back = document.createElement('button'); back.className='btn btn-return'; back.textContent='⬅ Volver'; back.onclick = ()=> { mostrarTabla(datos); back.remove(); }
+  cont.prepend(back);
+}
+
+function eliminarSeleccionados(){
+  const seleccionados = datos.filter(d=>d.seleccionado).length;
+  if(!seleccionados){ alert('No hay registros seleccionados'); return; }
+  if(!confirm(`Se eliminarán ${seleccionados} registros. ¿Continuar?`)) return;
+  datos = datos.filter(d=>!d.seleccionado);
+  guardarDatosUsuario(); mostrarTabla(datos); mostrarToast('Registros eliminados ✅'); intentarEscribirExcelVigilado();
+}
+
+function eliminarRegistro(idx){
+  if(!confirm('¿Eliminar este registro?')) return;
+  // idx corresponds to index in current shown array; to ensure correctness we map by item+dim+acta+fechaRaw
+  const target = datos[idx];
+  if(!target){ // fallback: remove by index
+    datos.splice(idx,1);
+  } else {
+    datos.splice(idx,1);
+  }
+  guardarDatosUsuario(); mostrarTabla(datos); mostrarToast('Registro eliminado ✅'); intentarEscribirExcelVigilado();
+}
+
+function limpiarInputs(){ document.getElementById('item').value=''; document.getElementById('numeroDim').value=''; document.getElementById('acta').value=''; document.getElementById('fechaSeleccionadaInput').value=''; document.getElementById('descripcion').value=''; document.getElementById('cantidad').value='0'; }
+
+/* ------------- Mostrar tabla ------------- */
+function mostrarTabla(arrayDatos=[]){
+  const cont = document.getElementById('resultados');
+  if(!arrayDatos || arrayDatos.length===0){ cont.innerHTML = `<div style="padding:30px;text-align:center;color:#506d7b"><strong>No hay datos para mostrar</strong><div>Importa un Excel o ingresa registros</div></div>`; return; }
+  let html = `<table><thead><tr><th><input id="selectAll" type="checkbox"></th><th># Item</th><th>Número DIM</th><th>Acta</th><th>Fecha Egreso</th><th>Descripción</th><th>Cantidad</th><th>Ubicación</th><th>Fecha Ingreso</th><th>Acciones</th></tr></thead><tbody>`;
+  arrayDatos.forEach((d, idx)=>{
+    // Display raw fecha strings if provided in Excel (fechaRaw), else fall back to ISO string but without time if possible
+    const fechaDisplay = d.fechaRaw ? escapeHtml(String(d.fechaRaw)) : (d.fecha ? escapeHtml(new Date(d.fecha).toISOString().split('T')[0]) : '');
+    const fechaIngresoDisplay = d.fechaIngresoRaw ? escapeHtml(String(d.fechaIngresoRaw)) : (d.fechaIngreso ? escapeHtml(new Date(d.fechaIngreso).toISOString().split('T')[0]) : '');
+    html += `<tr data-index="${idx}"><td><input class="row-checkbox" data-index="${idx}" type="checkbox" ${d.seleccionado?'checked':''}></td><td>${escapeHtml(d.item)}</td><td>${escapeHtml(d.dim)}</td><td>${escapeHtml(d.acta||'')}</td><td>${fechaDisplay}</td><td>${escapeHtml(d.description||d.descripcion||'')}</td><td>${escapeHtml(d.cantidad||0)}</td><td><span class="ubic">${escapeHtml(d.ubicacion||d.ubic||'')}</span></td><td>${fechaIngresoDisplay}</td><td><button class="btn btn-small danger" onclick="eliminarRegistro(${idx})">Eliminar</button></td></tr>`;
+  });
+  html += `</tbody></table>`;
+  cont.innerHTML = html;
+  // behaviors
+  const selectAll = document.getElementById('selectAll');
+  selectAll.checked = arrayDatos.every(r=>r.seleccionado);
+  selectAll.addEventListener('change', (e)=>{ const c=e.target.checked; arrayDatos.forEach(r=> r.seleccionado=c); guardarDatosUsuario(); mostrarTabla(arrayDatos); });
+  document.querySelectorAll('.row-checkbox').forEach(cb=> cb.addEventListener('change', (e)=>{ const i=Number(e.target.getAttribute('data-index')); if(!isNaN(i) && arrayDatos[i]){ arrayDatos[i].seleccionado = e.target.checked; guardarDatosUsuario(); } }));
+}
+
+/* ------------- Util ------------- */
+function escapeHtml(str=''){ return String(str).replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m])) }
+
+/* ------------- Persistencia usuario & sincronización entre pestañas ------------- */
+function guardarDatosUsuario(){
+  if(!usuarioActual) return;
+  const user = db.getUser(usuarioActual) || {};
+  db.updateUser(usuarioActual, { ...user, datos, contadorUbicacion });
+}
+
+window.addEventListener('storage', (ev)=>{
+  if(ev.key === db.dbKey && usuarioActual){
+    const user = db.getUser(usuarioActual);
+    if(user){ datos = user.datos || []; contadorUbicacion = user.contadorUbicacion || contadorUbicacion; mostrarTabla(datos); mostrarToast('Datos sincronizados entre pestañas 🔄'); }
+  }
+});
+
+/* ------------- Excel import/export (fallback read, plus handle read/write) ------------- */
+function exportarExcel(){
+  if(!usuarioActual){ alert('Inicia sesión'); return; }
+  try {
+    const encabezados = ['# Item','Número DIM','Acta','Fecha','Descripción','Cantidad','Ubicación','Fecha Ingreso'];
+    const filas = (datos||[]).map(d=>({
+      '# Item': d.item||'',
+      'Número DIM': d.dim||'',
+      'Acta': d.acta||'',
+      'Fecha': d.fechaRaw || (d.fecha ? (new Date(d.fecha).toISOString().split('T')[0]) : ''),
+      'Descripción': d.descripcion||'',
+      'Cantidad': Number(d.cantidad||0),
+      'Ubicación': d.ubicacion||'',
+      'Fecha Ingreso': d.fechaIngresoRaw || (d.fechaIngreso ? (new Date(d.fechaIngreso).toISOString()) : '')
+    }));
+    const ws = XLSX.utils.json_to_sheet(filas, { header: encabezados });
+    const wb = XLSX.utils.book_new(); XLSX.utils.book_append_sheet(wb, ws, 'Inventario');
+    XLSX.writeFile(wb, `UTNL_${usuarioActual}_${new Date().toISOString().split('T')[0]}.xlsx`);
+    mostrarToast('Excel exportado ✅');
+  } catch(e){ console.error(e); alert('Error exportando Excel'); }
+}
+
+function importarExcel(e){
+  const file = e.target.files[0]; if(!file) return;
+  const reader = new FileReader();
+  reader.onload = function(evt){
+    try {
+      const data = evt.target.result;
+      const workbook = XLSX.read(data, { type:'array' });
+      const ws = workbook.Sheets[workbook.SheetNames[0]];
+      const json = XLSX.utils.sheet_to_json(ws, { defval:'' });
+      if(!json || !json.length){ alert('Archivo vacío o inválido'); return; }
+      // IMPORTANT: preserve the Fecha and Fecha Ingreso exactly as in the Excel -> store in fechaRaw / fechaIngresoRaw
+      const nuevos = json.map(row => ({
+        item: String(row['# Item'] || row['Item'] || ''),
+        dim: String(row['Número DIM'] || row['NúmeroDim'] || row['DIM'] || ''),
+        acta: String(row['Acta'] || row['# Acta'] || ''),
+        fechaRaw: (row['Fecha'] !== undefined && row['Fecha'] !== null) ? String(row['Fecha']) : '',
+        descripcion: String(row['Descripción'] || row['Descripcion'] || row['Description'] || ''),
+        cantidad: Number(row['Cantidad'] || row['Qty'] || 0),
+        ubicacion: String(row['Ubicación'] || row['Ubicacion'] || row['Ubicación/Ubic'] || ''),
+        fechaIngresoRaw: (row['Fecha Ingreso'] !== undefined && row['Fecha Ingreso'] !== null) ? String(row['Fecha Ingreso']) : '',
+        seleccionado:false
+      })).filter(r=> r.item && r.dim);
+      if(nuevos.length===0){ alert('No se detectaron registros válidos'); return; }
+      const replace = confirm(`Se detectaron ${nuevos.length} registros. Reemplazar existentes? (Cancelar = agregar)`);
+      if(replace) datos = nuevos; else datos = [...datos, ...nuevos];
+      guardarDatosUsuario(); mostrarTabla(datos); mostrarToast('Importación completada ✅');
+      intentarEscribirExcelVigilado();
+    } catch(err){ console.error(err); alert('Error leyendo Excel'); } finally { e.target.value=''; }
+  };
+  reader.readAsArrayBuffer(file);
+}
+
+/* ------------- File System Access API: watch file ------------- */
+async function requestFileHandle(){
+  try {
+    const [handle] = await window.showOpenFilePicker({ types:[{ description:'Excel', accept:{ 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet':['.xlsx'], 'application/vnd.ms-excel':['.xls'] } }], multiple:false });
+    return handle;
+  } catch(e){ console.warn('No se seleccionó archivo o permiso denegado', e); return null; }
+}
+
+async function toggleWatch(){
+  if(!('showOpenFilePicker' in window)){ alert('Tu navegador no soporta vigilancia automática. Usa Importar Excel manual.'); return; }
+  if(excelFileHandle){ stopWatching(); return; }
+  const handle = await requestFileHandle(); if(!handle) return;
+  excelFileHandle = handle;
+  const f = await excelFileHandle.getFile();
+  excelLastModified = f.lastModified || 0; excelLastSize = f.size || 0;
+  document.getElementById('watchBtn').classList.add('hidden'); document.getElementById('stopWatchBtn').classList.remove('hidden');
+  document.getElementById('filePill').textContent = `Archivo vigilado: ${f.name}`;
+  startWatching();
+  mostrarToast('Vigilancia iniciada 🔎');
+}
+
+function stopWatching(){
+  if(watchInterval) clearInterval(watchInterval);
+  watchInterval = null; excelFileHandle = null; excelLastModified = 0; excelLastSize = 0;
+  document.getElementById('watchBtn').classList.remove('hidden'); document.getElementById('stopWatchBtn').classList.add('hidden');
+  document.getElementById('filePill').textContent = 'Archivo vigilado: ninguno';
+  document.getElementById('syncPill').textContent = 'Sincronización: inactiva';
+  mostrarToast('Vigilancia detenida ⏹️');
+}
+
+function startWatching(){ if(watchInterval) clearInterval(watchInterval); document.getElementById('syncPill').textContent='Sincronización: activa'; pollExcelChanges(); watchInterval = setInterval(pollExcelChanges, WATCH_INTERVAL_MS); }
+
+async function pollExcelChanges(){
+  if(!excelFileHandle) return;
+  try {
+    const file = await excelFileHandle.getFile();
+    const lm = file.lastModified || 0; const sz = file.size || 0;
+    if(lm !== excelLastModified || sz !== excelLastSize){
+      excelLastModified = lm; excelLastSize = sz;
+      document.getElementById('lastSync').textContent = `Últ. sincronización: ${new Date().toLocaleString()}`;
+      await readExcelFromHandle(file);
+      mostrarToast('Datos sincronizados desde archivo vigilado 🔄');
+    }
+  } catch(e){ console.warn(e); }
+}
+
+async function readExcelFromHandle(file){
+  try {
+    const ab = await file.arrayBuffer();
+    const workbook = XLSX.read(ab, { type:'array' });
+    const ws = workbook.Sheets[workbook.SheetNames[0]];
+    const json = XLSX.utils.sheet_to_json(ws, { defval:'' });
+    if(!json || !json.length) { console.warn('file empty or invalid'); return; }
+    const nuevos = json.map(row => ({
+      item: String(row['# Item'] || row['Item'] || ''),
+      dim: String(row['Número DIM'] || row['NúmeroDim'] || row['DIM'] || ''),
+      acta: String(row['Acta'] || row['# Acta'] || ''),
+      fechaRaw: (row['Fecha'] !== undefined && row['Fecha'] !== null) ? String(row['Fecha']) : '',
+      descripcion: String(row['Descripción'] || row['Descripcion'] || row['Description'] || ''),
+      cantidad: Number(row['Cantidad'] || row['Qty'] || 0),
+      ubicacion: String(row['Ubicación'] || row['Ubicacion'] || row['Ubicación/Ubic'] || ''),
+      fechaIngresoRaw: (row['Fecha Ingreso'] !== undefined && row['Fecha Ingreso'] !== null) ? String(row['Fecha Ingreso']) : '',
+      seleccionado:false
+    })).filter(r=> r.item && r.dim);
+    const mapa = new Map(); datos.forEach(d=> mapa.set(`${d.dim}||${d.item}`, d));
+    let añadidos = 0;
+    nuevos.forEach(n=>{
+      const key = `${n.dim}||${n.item}`;
+      if(!mapa.has(key)){ datos.push(n); añadidos++; }
+      else {
+        const ex = mapa.get(key);
+        // update lightly: keep excel raw dates if provided
+        ex.descripcion = n.descripcion || ex.descripcion;
+        ex.cantidad = n.cantidad || ex.cantidad;
+        ex.ubicacion = n.ubicacion || ex.ubicacion;
+        if(n.fechaRaw) ex.fechaRaw = n.fechaRaw;
+        if(n.fechaIngresoRaw) ex.fechaIngresoRaw = n.fechaIngresoRaw;
+      }
+    });
+    guardarDatosUsuario(); mostrarTabla(datos);
+    document.getElementById('lastSync').textContent = `Últ. sincronización: ${new Date().toLocaleString()}`;
+    return añadidos;
+  } catch(e){ console.error('readExcelFromHandle error', e); }
+}
+
+/* ------------- Write to handle (attempt) ------------- */
+let writeDebounceTimer = null;
+async function intentarEscribirExcelVigilado(){
+  if(!excelFileHandle) return;
+  if(writeDebounceTimer) clearTimeout(writeDebounceTimer);
+  writeDebounceTimer = setTimeout(async ()=>{
+    try {
+      const opts = { mode: 'readwrite' };
+      const curr = await excelFileHandle.queryPermission(opts);
+      if(curr !== 'granted'){
+        const req = await excelFileHandle.requestPermission(opts);
+        if(req !== 'granted'){ console.warn('No se concedió permiso de escritura'); return; }
+      }
+      await writeExcelToHandle();
+      mostrarToast('Archivo vigilado actualizado ✅');
+    } catch(e){ console.warn('No se pudo escribir al archivo vigilado', e); }
+  }, 900);
+}
+
+async function writeExcelToHandle(){
+  if(!excelFileHandle) return;
+  try {
+    const encabezados = ['# Item','Número DIM','Acta','Fecha','Descripción','Cantidad','Ubicación','Fecha Ingreso'];
+    const filas = (datos||[]).map(d=>({
+      '# Item': d.item||'',
+      'Número DIM': d.dim||'',
+      'Acta': d.acta||'',
+      'Fecha': d.fechaRaw || (d.fecha ? (new Date(d.fecha).toISOString().split('T')[0]) : ''),
+      'Descripción': d.descripcion||'',
+      'Cantidad': Number(d.cantidad||0),
+      'Ubicación': d.ubicacion||'',
+      'Fecha Ingreso': d.fechaIngresoRaw || (d.fechaIngreso ? (new Date(d.fechaIngreso).toISOString()) : '')
+    }));
+    const ws = XLSX.utils.json_to_sheet(filas, { header: encabezados });
+    const wb = XLSX.utils.book_new(); XLSX.utils.book_append_sheet(wb, ws, 'Inventario');
+    const wbout = XLSX.write(wb, { bookType:'xlsx', type:'array' });
+    const writable = await excelFileHandle.createWritable();
+    await writable.write(wbout);
+    await writable.close();
+    const f = await excelFileHandle.getFile();
+    excelLastModified = f.lastModified || excelLastModified;
+    excelLastSize = f.size || excelLastSize;
+    document.getElementById('lastSync').textContent = `Últ. sincronización: ${new Date().toLocaleString()}`;
+    return true;
+  } catch(e){ console.error('writeExcelToHandle error', e); throw e; }
+}
+
+/* ------------- Forzar import manual desde handle ------------- */
+async function forzarImportDesdeHandle(){
+  if(!excelFileHandle){ alert('No hay archivo vigilado. Usa "Vigilar archivo Excel"'); return; }
+  try {
+    const file = await excelFileHandle.getFile();
+    await readExcelFromHandle(file);
+    mostrarToast('Importación forzada completada ✅');
+  } catch(e){ alert('Error importando desde archivo vigilado'); }
+}
+
+/* ------------- Backup / Restore DB JSON (to move between devices) ------------- */
+function exportarBackupDB(){
+  const dbAll = db.load();
+  if(!dbAll){ alert('No hay base para exportar'); return; }
+  const blob = new Blob([JSON.stringify(dbAll, null, 2)], { type: 'application/json' });
+  const a = document.createElement('a'); a.href = URL.createObjectURL(blob);
+  a.download = `UTNL_backup_${new Date().toISOString().split('T')[0]}.json`; document.body.appendChild(a); a.click(); a.remove();
+  mostrarToast('Backup exportado ✅');
+}
+
+function importarBackupDB(e){
+  const file = e.target.files[0]; if(!file) return;
+  const reader = new FileReader();
+  reader.onload = function(evt){
+    try {
+      const parsed = JSON.parse(evt.target.result);
+      if(!parsed || !parsed.usuarios){ alert('JSON inválido'); return; }
+      // replace local database (ask user)
+      if(!confirm('Se importará la base completa desde JSON y reemplazará la actual. ¿Continuar?')) return;
+      localStorage.setItem(db.dbKey, JSON.stringify(parsed));
+      db.init();
+      mostrarToast('Backup importado ✅');
+      // if current user exists in new DB, reload their data
+      if(usuarioActual){
+        const u = db.getUser(usuarioActual);
+        if(u){ datos = u.datos || []; guardarDatosUsuario(); mostrarTabla(datos); }
+      }
+    } catch(err){ console.error(err); alert('Error leyendo JSON'); } finally { e.target.value=''; }
+  };
+  reader.readAsText(file);
+}
+
+/* ------------- Small helpers used previously ------------- */
+function mostrarInfo(){ alert('Este sistema sincroniza localmente con Excel. Usa Chrome/Edge para vigilancia automática. Para usar los mismos usuarios/datos en otro equipo, exporta el backup JSON y luego impórtalo en el otro equipo.'); }
+
+/* ------------- Misc: expose registrar to console if needed ------------- */
+window.registrarUsuario = (nombre, usuario, password) => { if(db.getUser(usuario)){ console.warn('usuario existe'); return; } db.addUser(usuario, { nombre, password, datos:[], contadorUbicacion }); console.log('usuario creado') };
+
+/* ------------- Ensure admin exists ------------- */
+function ensureAdminExists(){
+  const admin = db.getUser('admin');
+  if(!admin){
+    db.addUser('admin', { nombre:'Administrador', password:'admin', datos:[], contadorUbicacion:contadorUbicacion });
+  }
+}
+</script>
+</body>
+</html>
+
