@@ -1,0 +1,24 @@
+{
+  "version": "2.0",
+  "createdAt": "2025-10-09T01:50:11.774Z",
+  "lastModified": "2025-10-09T01:50:57.938Z",
+  "usuarios": {
+    "juan": {
+      "nombre": "Juan Camilo",
+      "password": "1234",
+      "datos": [],
+      "contadorUbicacion": {
+        "estanteria": 1,
+        "piso": 2,
+        "seccion": 1,
+        "posicion": 1
+      },
+      "createdAt": "2025-10-09T01:50:44.666Z",
+      "lastAccess": "2025-10-09T01:50:57.938Z"
+    }
+  },
+  "metadata": {
+    "totalUsuarios": 1,
+    "totalRegistros": 0
+  }
+}
